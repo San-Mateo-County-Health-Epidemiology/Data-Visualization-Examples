@@ -1,0 +1,115 @@
+---
+title: "Small multiples"
+---
+
+```{r setup}
+
+library(tidyverse)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+library(ggtext)
+
+# load data ------------------------------------
+## dof P3 ----
+dof <- read.csv("J:/Epi Data/DoF Population Projections/P3_Complete released on 7.14.2021/P3_Complete.csv")
+
+## get what we want
+dof1 <- dof %>%
+  rename(age = agerc) %>%
+  filter(fips == "6081") %>%
+  mutate(sex = str_to_title(sex),
+         race_cat = case_when(race7 == 1 ~ "White",
+                              race7 == 2 ~ "Black",
+                              race7 == 3 ~ "American Indian/Alaskan Native",
+                              race7 == 4 ~ "Asian",
+                              race7 == 5 ~ "Native Hawaiian/Pacific Islander",
+                              race7 == 6 ~ "Multirace",
+                              race7 == 7 ~ "Latinx")) %>%
+  group_by(year, sex, race_cat) %>%
+  summarize(pop = sum(perwt),
+            .groups = "keep") %>%
+  ungroup() %>%
+  group_by(year, race_cat) %>%
+  mutate(total = sum(pop)) %>%
+  rowwise() %>%
+  mutate(prop = round(pop/total, 5)) %>%
+  ungroup() 
+
+```
+```{r make charts}
+# visualize -------------------------------------
+## goal: see how the population changed over time ----
+### set the colors ----
+male_color <- "#ffce00"
+female_color <- "#006cb6"
+
+### make the plot ----
+plot <- ggplot(dof1) +
+  geom_line(aes(x = year, y = prop, group = sex, color = sex), 
+            size = 1.5) + 
+  scale_color_manual(values = c("Female" = female_color,
+                               "Male" = male_color)) + 
+  facet_wrap(~race_cat,
+             nrow = 2) + 
+  scale_y_continuous(
+    labels = scales::percent,
+    breaks = 0.5,
+  ) + 
+  theme_minimal() + 
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(size = 0.001, color = "black"),
+    axis.title = element_blank(),
+    axis.text = element_text(face = "bold"),
+    axis.text.x = element_text(size = 10),
+    strip.text.x = element_text(size = 11, face = "bold"),
+    legend.position = "top",
+    panel.background = element_rect(fill = "#F8F9F9", 
+                                    color = "#F8F9F9")
+    
+  ) 
+
+### make the title ----
+plot_title <- grobTree(
+  gp = gpar(fontsize = 14, fontface = "bold"), 
+  textGrob(label = "Projected percentage of  ", 
+           name = "first_part",
+           x = unit(0.2, "lines"), 
+           y = unit(0.5, "lines"), 
+           hjust = 0, 
+           vjust = 0),
+  textGrob(label = "Female", 
+           name = "female",
+           x = grobWidth("first_part") + unit(0.2, "lines"), 
+           y = unit(0.5, "lines"),
+           hjust = 0, 
+           vjust = 0, 
+           gp = gpar(col = female_color)),
+  textGrob(label = " and ", 
+           name = "second_part",
+           x = grobWidth("first_part") + grobWidth("female") + unit(0.2, "lines"), 
+           y = unit(0.5, "lines"),
+           hjust = 0, 
+           vjust = 0),
+  textGrob(label = "Male", 
+           name = "male",
+           x = grobWidth("first_part") + grobWidth("female") + grobWidth("second_part") + unit(0.2, "lines"), 
+           y = unit(0.5, "lines"),
+           hjust = 0, 
+           vjust = 0, 
+           gp = gpar(col = male_color)),
+  textGrob(label = " residents by race/ethnicity.", 
+           name = "last_part",
+           x = grobWidth("first_part") + grobWidth("female") + grobWidth("second_part") + grobWidth("male") + unit(0.2, "lines"), 
+           y = unit(0.5, "lines"),
+           hjust = 0, 
+           vjust = 0)
+  )
+  
+## put it all together ----
+combined_plot <- arrangeGrob(plot, top=plot_title, padding = unit(2.6, "line"))
+  
+grid.arrange(combined_plot)
+```

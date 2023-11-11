@@ -1,0 +1,139 @@
+---
+title: "Bar charts"
+---
+
+```{r setup}
+
+library(dplyr)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+
+# load data ----------------------------------
+data("HairEyeColor")
+
+## get it in the format we need ----
+hair_eye_freq <- HairEyeColor %>%
+  data.frame() %>%
+  group_by(Hair, Eye) %>%
+  summarize(freq = sum(Freq),
+            .groups = "keep") %>%
+  ungroup() %>%
+  group_by(Hair) %>%
+  mutate(total = sum(freq),
+         prop = freq/total) %>%
+  ungroup() 
+
+print(hair_eye_freq)
+
+```
+
+```{r make bar charts}
+# make bar charts ----------------------------
+## basics ----
+### clustered ----
+hair_eye_freq %>% 
+  ggplot(aes(x = Hair, 
+             y = prop,
+             fill = Eye)) +
+  geom_bar(position = "dodge",
+           stat = "identity")
+
+### stacked ----
+hair_eye_freq %>% 
+  ggplot(aes(x = Hair, 
+             y = freq,
+             fill = Eye)) +
+  geom_bar(position = "stack",
+           stat = "identity") 
+
+### 100% stacked ----
+hair_eye_freq %>% 
+  ggplot(aes(x = Hair, 
+             y = freq,
+             fill = Eye)) +
+  geom_bar(position = "fill",
+           stat = "identity")
+```
+
+```{r add in formatting}
+
+## with all the formating ----
+hair_eye_freq %>% 
+  ggplot(aes(x = Hair, 
+             y = prop,
+             fill = Eye)) +
+  geom_bar(position = "dodge",
+           stat = "identity") + 
+  scale_fill_manual(values = c("Brown" = "#873600",
+                               "Blue" = "#0288D1",
+                               "Hazel" = "#CFD8DC",
+                               "Green" = "#7CB342"),
+                    name = "Eye Color") + 
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme_minimal() + 
+  theme(
+    legend.position = "bottom",
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(size = 0.25, color = "gray"),
+    axis.title = element_blank(),
+    axis.text = element_text(face = "bold"),
+    legend.title = element_text(face = "bold"),
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 10)
+  ) + 
+  labs(title = "Distribution of Eye Color by Hair Color") +
+  xlab("Hair Color") 
+
+## formatting specific elements ----------
+eye_overall <- hair_eye_freq %>%
+  select(Eye, freq) %>%
+  group_by(Eye) %>%
+  summarize(freq_eye = sum(freq),
+            .groups = "keep") %>%
+  ungroup()
+
+### setting all bars to the same color with an outline ----
+eye_overall %>%
+  ggplot(aes(x = Eye, 
+             y = freq_eye)) +
+  geom_bar(position = "dodge",
+           stat = "identity",
+           fill = "#38939b",
+           color = "black")  
+
+### fill by frequency ----
+eye_overall %>%
+  ggplot(aes(x = Eye, 
+             y = freq_eye,
+             fill = freq_eye)) +
+  geom_bar(position = "dodge",
+           stat = "identity") + 
+  scale_fill_gradient(low = "white", high = "#006cb6")
+
+### fill with a palette ----
+eye_overall %>%
+  ggplot(aes(x = Eye, 
+             y = freq_eye,
+             fill = Eye)) +
+  geom_bar(position = "dodge",
+           stat = "identity") + 
+  scale_fill_brewer(palette = "Spectral")
+
+### color based on values ---- 
+hair_eye_freq %>%
+  mutate(maj = case_when(prop > 0.5 ~ "majority",
+                         TRUE ~ "minority")) %>%
+  ggplot(aes(x = Hair, 
+             y = prop,
+             group = Eye,
+             fill = maj)) +
+  geom_bar(position = "dodge",
+           stat = "identity",
+           color = "black") +
+  scale_fill_manual(values = c("majority" = "#0288D1",
+                               "minority" = "#CFD8DC")) + 
+  labs(title = "Frequency of Eye Color by Hair Color") + 
+  theme(legend.title = element_blank())
+```

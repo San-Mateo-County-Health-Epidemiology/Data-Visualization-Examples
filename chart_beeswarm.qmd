@@ -1,0 +1,106 @@
+---
+title: "Beeswarm Plots"
+format: html
+editor: visual
+---
+
+## Beeswarm plot
+
+This code was adapted from Stephanie Evergreen's Code for Beeswarm Plots. [This article](https://stephanieevergreen.com/ways-to-make-more-inclusive-data-viz/) goes over the motivation for using a beeswarm plot in detail. The gist is that these are great charts when you want to compare a continuous variable across multiple categories.
+
+## Example code
+
+```{r setup}
+
+library(dplyr)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+
+# load data ----
+data(iris)
+```
+
+Make a vertical beeswarm plot:
+
+```{r}
+# vertical beeswarm ----
+## make plot ----
+plot_vert <- iris %>% 
+  ggplot(aes(x = Species, 
+             y = Sepal.Length)) +
+  geom_point(
+    position = position_jitter(w = 1/6, h = 0),
+    size = 4, 
+    color = "#006cb6", 
+    alpha = 2/3
+  ) +
+  scale_y_continuous(
+    limits = c(4, 8),
+    breaks = seq(4, 8, 2)
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(size = 0.25, color = "gray"),
+    axis.title = element_blank(),
+    axis.text = element_text(face = "bold"),
+    axis.text.x = element_text(size = 12)
+  ) 
+plot_vert
+```
+
+Add a title and some formatting to the vertical plot
+
+```{r}
+plot_title <- textGrob(
+  label = "Sepal Length of Iris Species",
+  x = unit(0.2, "lines"), 
+  y = unit(0.1, "lines"), 
+  hjust = 0, 
+  vjust = 0, 
+  gp = gpar(fontsize = 18)
+)
+
+plot_complete <- arrangeGrob(plot_vert, top = plot_title)
+grid.arrange(plot_complete)
+```
+
+Make a horizontal beeswarm plot *Note: this is basically the same code as the vertical chart but the x and y variables are switched.*
+
+```{r}
+plot_horiz <- iris %>% 
+  ggplot(aes(x = Sepal.Length, 
+             y = Species)) +
+  geom_point(
+    position = position_jitter(h = 1/6, w = 0),
+    size = 4, 
+    color = "#006cb6", 
+    alpha = 2/3
+  ) +
+  scale_x_continuous(
+    limits = c(4, 8),
+    breaks = seq(4, 8, 2)
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.major.x = element_line(size = 0.25, color = "gray"),
+    axis.title = element_blank(),
+    axis.text = element_text(face = "bold"),
+    axis.text.y = element_text(size = 12)
+  ) + 
+  labs(title = "Sepal Length of Iris Species")
+plot_horiz
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
