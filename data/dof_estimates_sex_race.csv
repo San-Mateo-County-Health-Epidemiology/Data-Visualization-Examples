@@ -1,0 +1,715 @@
+year,sex,race_cat,pop,total,prop
+2010,Female,American Indian/Alaskan Native,611,1176,0.51956
+2010,Female,Asian,94834,178346,0.53174
+2010,Female,Black,9363,19077,0.4908
+2010,Female,Latinx,90331,183140,0.49323
+2010,Female,Multirace,11344,22641,0.50104
+2010,Female,Native Hawaiian/Pacific Islander,5318,10262,0.51822
+2010,Female,White,154812,306712,0.50475
+2010,Male,American Indian/Alaskan Native,565,1176,0.48044
+2010,Male,Asian,83512,178346,0.46826
+2010,Male,Black,9714,19077,0.5092
+2010,Male,Latinx,92809,183140,0.50677
+2010,Male,Multirace,11297,22641,0.49896
+2010,Male,Native Hawaiian/Pacific Islander,4944,10262,0.48178
+2010,Male,White,151900,306712,0.49525
+2011,Female,American Indian/Alaskan Native,628,1207,0.5203
+2011,Female,Asian,96117,180955,0.53117
+2011,Female,Black,9419,19293,0.48821
+2011,Female,Latinx,91655,185964,0.49286
+2011,Female,Multirace,11666,23269,0.50135
+2011,Female,Native Hawaiian/Pacific Islander,5422,10446,0.51905
+2011,Female,White,155989,309342,0.50426
+2011,Male,American Indian/Alaskan Native,579,1207,0.4797
+2011,Male,Asian,84838,180955,0.46883
+2011,Male,Black,9874,19293,0.51179
+2011,Male,Latinx,94309,185964,0.50714
+2011,Male,Multirace,11603,23269,0.49865
+2011,Male,Native Hawaiian/Pacific Islander,5024,10446,0.48095
+2011,Male,White,153353,309342,0.49574
+2012,Female,American Indian/Alaskan Native,641,1226,0.52284
+2012,Female,Asian,97882,184352,0.53095
+2012,Female,Black,9462,19470,0.48598
+2012,Female,Latinx,93257,189262,0.49274
+2012,Female,Multirace,11993,23974,0.50025
+2012,Female,Native Hawaiian/Pacific Islander,5506,10605,0.51919
+2012,Female,White,157922,313551,0.50366
+2012,Male,American Indian/Alaskan Native,585,1226,0.47716
+2012,Male,Asian,86470,184352,0.46905
+2012,Male,Black,10008,19470,0.51402
+2012,Male,Latinx,96005,189262,0.50726
+2012,Male,Multirace,11981,23974,0.49975
+2012,Male,Native Hawaiian/Pacific Islander,5099,10605,0.48081
+2012,Male,White,155629,313551,0.49634
+2013,Female,American Indian/Alaskan Native,659,1267,0.52013
+2013,Female,Asian,99153,186939,0.5304
+2013,Female,Black,9498,19570,0.48533
+2013,Female,Latinx,94567,191897,0.4928
+2013,Female,Multirace,12275,24578,0.49943
+2013,Female,Native Hawaiian/Pacific Islander,5562,10716,0.51904
+2013,Female,White,158838,315626,0.50325
+2013,Male,American Indian/Alaskan Native,608,1267,0.47987
+2013,Male,Asian,87786,186939,0.4696
+2013,Male,Black,10072,19570,0.51467
+2013,Male,Latinx,97330,191897,0.5072
+2013,Male,Multirace,12303,24578,0.50057
+2013,Male,Native Hawaiian/Pacific Islander,5154,10716,0.48096
+2013,Male,White,156788,315626,0.49675
+2014,Female,American Indian/Alaskan Native,668,1281,0.52147
+2014,Female,Asian,100425,189484,0.52999
+2014,Female,Black,9508,19659,0.48365
+2014,Female,Latinx,95821,194575,0.49246
+2014,Female,Multirace,12524,25108,0.49881
+2014,Female,Native Hawaiian/Pacific Islander,5635,10852,0.51926
+2014,Female,White,159436,317124,0.50276
+2014,Male,American Indian/Alaskan Native,613,1281,0.47853
+2014,Male,Asian,89059,189484,0.47001
+2014,Male,Black,10151,19659,0.51635
+2014,Male,Latinx,98754,194575,0.50754
+2014,Male,Multirace,12584,25108,0.50119
+2014,Male,Native Hawaiian/Pacific Islander,5217,10852,0.48074
+2014,Male,White,157688,317124,0.49724
+2015,Female,American Indian/Alaskan Native,648,1289,0.50272
+2015,Female,Asian,101648,191918,0.52964
+2015,Female,Black,9532,19704,0.48376
+2015,Female,Latinx,97238,197400,0.49259
+2015,Female,Multirace,12807,25727,0.4978
+2015,Female,Native Hawaiian/Pacific Islander,5676,10948,0.51845
+2015,Female,White,160163,318834,0.50234
+2015,Male,American Indian/Alaskan Native,641,1289,0.49728
+2015,Male,Asian,90270,191918,0.47036
+2015,Male,Black,10172,19704,0.51624
+2015,Male,Latinx,100162,197400,0.50741
+2015,Male,Multirace,12920,25727,0.5022
+2015,Male,Native Hawaiian/Pacific Islander,5272,10948,0.48155
+2015,Male,White,158671,318834,0.49766
+2016,Female,American Indian/Alaskan Native,652,1279,0.50977
+2016,Female,Asian,102342,193344,0.52933
+2016,Female,Black,9509,19711,0.48242
+2016,Female,Latinx,98212,199261,0.49288
+2016,Female,Multirace,13038,26177,0.49807
+2016,Female,Native Hawaiian/Pacific Islander,5718,11016,0.51906
+2016,Female,White,160144,318934,0.50212
+2016,Male,American Indian/Alaskan Native,627,1279,0.49023
+2016,Male,Asian,91002,193344,0.47067
+2016,Male,Black,10202,19711,0.51758
+2016,Male,Latinx,101049,199261,0.50712
+2016,Male,Multirace,13139,26177,0.50193
+2016,Male,Native Hawaiian/Pacific Islander,5298,11016,0.48094
+2016,Male,White,158790,318934,0.49788
+2017,Female,American Indian/Alaskan Native,650,1290,0.50388
+2017,Female,Asian,102921,194501,0.52915
+2017,Female,Black,9473,19667,0.48167
+2017,Female,Latinx,98976,200869,0.49274
+2017,Female,Multirace,13252,26606,0.49808
+2017,Female,Native Hawaiian/Pacific Islander,5743,11047,0.51987
+2017,Female,White,159855,318587,0.50176
+2017,Male,American Indian/Alaskan Native,640,1290,0.49612
+2017,Male,Asian,91580,194501,0.47085
+2017,Male,Black,10194,19667,0.51833
+2017,Male,Latinx,101893,200869,0.50726
+2017,Male,Multirace,13354,26606,0.50192
+2017,Male,Native Hawaiian/Pacific Islander,5304,11047,0.48013
+2017,Male,White,158732,318587,0.49824
+2018,Female,American Indian/Alaskan Native,655,1290,0.50775
+2018,Female,Asian,103440,195619,0.52878
+2018,Female,Black,9491,19668,0.48256
+2018,Female,Latinx,99512,201914,0.49284
+2018,Female,Multirace,13497,27108,0.4979
+2018,Female,Native Hawaiian/Pacific Islander,5785,11073,0.52244
+2018,Female,White,159512,318150,0.50137
+2018,Male,American Indian/Alaskan Native,635,1290,0.49225
+2018,Male,Asian,92179,195619,0.47122000000000003
+2018,Male,Black,10177,19668,0.51744
+2018,Male,Latinx,102402,201914,0.50716
+2018,Male,Multirace,13611,27108,0.5021
+2018,Male,Native Hawaiian/Pacific Islander,5288,11073,0.47756
+2018,Male,White,158638,318150,0.49863
+2019,Female,American Indian/Alaskan Native,668,1302,0.51306
+2019,Female,Asian,103580,195915,0.5287
+2019,Female,Black,9486,19746,0.4804
+2019,Female,Latinx,99966,202786,0.49296
+2019,Female,Multirace,13694,27530,0.49742
+2019,Female,Native Hawaiian/Pacific Islander,5811,11103,0.52337
+2019,Female,White,159261,317620,0.50142
+2019,Male,American Indian/Alaskan Native,634,1302,0.48694
+2019,Male,Asian,92335,195915,0.4713
+2019,Male,Black,10260,19746,0.5196
+2019,Male,Latinx,102820,202786,0.50704
+2019,Male,Multirace,13836,27530,0.50258
+2019,Male,Native Hawaiian/Pacific Islander,5292,11103,0.47663
+2019,Male,White,158359,317620,0.49858
+2020,Female,American Indian/Alaskan Native,673,1311,0.51335
+2020,Female,Asian,103585,195838,0.52893
+2020,Female,Black,9411,19700,0.47772
+2020,Female,Latinx,100234,203258,0.49314
+2020,Female,Multirace,13853,27824,0.49788
+2020,Female,Native Hawaiian/Pacific Islander,5811,11103,0.52337
+2020,Female,White,158524,316098,0.5015
+2020,Male,American Indian/Alaskan Native,638,1311,0.48665
+2020,Male,Asian,92253,195838,0.47107
+2020,Male,Black,10289,19700,0.52228
+2020,Male,Latinx,103024,203258,0.50686
+2020,Male,Multirace,13971,27824,0.50212
+2020,Male,Native Hawaiian/Pacific Islander,5292,11103,0.47663
+2020,Male,White,157574,316098,0.4985
+2021,Female,American Indian/Alaskan Native,682,1319,0.51706
+2021,Female,Asian,103634,195921,0.52896
+2021,Female,Black,9441,19791,0.47704
+2021,Female,Latinx,100603,203839,0.49354
+2021,Female,Multirace,14013,28152,0.49776
+2021,Female,Native Hawaiian/Pacific Islander,5828,11144,0.52297
+2021,Female,White,157864,314824,0.50144
+2021,Male,American Indian/Alaskan Native,637,1319,0.48294
+2021,Male,Asian,92287,195921,0.47104
+2021,Male,Black,10350,19791,0.52296
+2021,Male,Latinx,103236,203839,0.50646
+2021,Male,Multirace,14139,28152,0.50224
+2021,Male,Native Hawaiian/Pacific Islander,5316,11144,0.47703
+2021,Male,White,156960,314824,0.49856
+2022,Female,American Indian/Alaskan Native,691,1347,0.51299
+2022,Female,Asian,103902,196511,0.52873
+2022,Female,Black,9498,19965,0.47573
+2022,Female,Latinx,101271,205252,0.4934
+2022,Female,Multirace,14200,28594,0.49661
+2022,Female,Native Hawaiian/Pacific Islander,5844,11170,0.52319
+2022,Female,White,157855,314796,0.50145
+2022,Male,American Indian/Alaskan Native,656,1347,0.48701
+2022,Male,Asian,92609,196511,0.47127
+2022,Male,Black,10467,19965,0.52427
+2022,Male,Latinx,103981,205252,0.5066
+2022,Male,Multirace,14394,28594,0.50339
+2022,Male,Native Hawaiian/Pacific Islander,5326,11170,0.47681
+2022,Male,White,156941,314796,0.49855
+2023,Female,American Indian/Alaskan Native,704,1364,0.51613
+2023,Female,Asian,104254,197270,0.52848
+2023,Female,Black,9565,20113,0.47556
+2023,Female,Latinx,101955,206635,0.49341
+2023,Female,Multirace,14371,29019,0.49523
+2023,Female,Native Hawaiian/Pacific Islander,5872,11244,0.52223
+2023,Female,White,157968,315005,0.50148
+2023,Male,American Indian/Alaskan Native,660,1364,0.48387
+2023,Male,Asian,93016,197270,0.47152
+2023,Male,Black,10548,20113,0.52444
+2023,Male,Latinx,104680,206635,0.50659
+2023,Male,Multirace,14648,29019,0.50477
+2023,Male,Native Hawaiian/Pacific Islander,5372,11244,0.47777
+2023,Male,White,157037,315005,0.49852
+2024,Female,American Indian/Alaskan Native,706,1362,0.51836
+2024,Female,Asian,104684,198035,0.52861
+2024,Female,Black,9596,20258,0.47369
+2024,Female,Latinx,102687,208206,0.4932
+2024,Female,Multirace,14584,29422,0.49568
+2024,Female,Native Hawaiian/Pacific Islander,5912,11325,0.52203
+2024,Female,White,158127,315201,0.50167
+2024,Male,American Indian/Alaskan Native,656,1362,0.48164
+2024,Male,Asian,93351,198035,0.47139
+2024,Male,Black,10662,20258,0.52630999999999994
+2024,Male,Latinx,105519,208206,0.5068
+2024,Male,Multirace,14838,29422,0.50432
+2024,Male,Native Hawaiian/Pacific Islander,5413,11325,0.47797
+2024,Male,White,157074,315201,0.49833
+2025,Female,American Indian/Alaskan Native,712,1391,0.51186
+2025,Female,Asian,105066,198778,0.52856
+2025,Female,Black,9661,20427,0.47295
+2025,Female,Latinx,103437,209812,0.493
+2025,Female,Multirace,14768,29839,0.49492
+2025,Female,Native Hawaiian/Pacific Islander,5957,11390,0.523
+2025,Female,White,158319,315524,0.50177
+2025,Male,American Indian/Alaskan Native,679,1391,0.48814
+2025,Male,Asian,93712,198778,0.47144
+2025,Male,Black,10766,20427,0.52705
+2025,Male,Latinx,106375,209812,0.507
+2025,Male,Multirace,15071,29839,0.50508
+2025,Male,Native Hawaiian/Pacific Islander,5433,11390,0.477
+2025,Male,White,157205,315524,0.49823
+2026,Female,American Indian/Alaskan Native,724,1395,0.519
+2026,Female,Asian,105412,199466,0.52847
+2026,Female,Black,9689,20531,0.47192
+2026,Female,Latinx,104114,211245,0.49286
+2026,Female,Multirace,15013,30271,0.49595
+2026,Female,Native Hawaiian/Pacific Islander,5993,11443,0.52373
+2026,Female,White,158575,315873,0.50202
+2026,Male,American Indian/Alaskan Native,671,1395,0.481
+2026,Male,Asian,94054,199466,0.47153
+2026,Male,Black,10842,20531,0.52808
+2026,Male,Latinx,107131,211245,0.50714
+2026,Male,Multirace,15258,30271,0.50405
+2026,Male,Native Hawaiian/Pacific Islander,5450,11443,0.47627
+2026,Male,White,157298,315873,0.49798
+2027,Female,American Indian/Alaskan Native,729,1416,0.51483
+2027,Female,Asian,105761,200026,0.52874
+2027,Female,Black,9721,20660,0.47052
+2027,Female,Latinx,104859,212581,0.49327
+2027,Female,Multirace,15233,30722,0.49583
+2027,Female,Native Hawaiian/Pacific Islander,6029,11485,0.52495
+2027,Female,White,158741,315999,0.50235
+2027,Male,American Indian/Alaskan Native,687,1416,0.48517
+2027,Male,Asian,94265,200026,0.47126
+2027,Male,Black,10939,20660,0.52948
+2027,Male,Latinx,107722,212581,0.50673
+2027,Male,Multirace,15489,30722,0.50417
+2027,Male,Native Hawaiian/Pacific Islander,5456,11485,0.47505
+2027,Male,White,157258,315999,0.49765
+2028,Female,American Indian/Alaskan Native,739,1429,0.51714
+2028,Female,Asian,106089,200539,0.52902
+2028,Female,Black,9745,20774,0.4691
+2028,Female,Latinx,105561,213999,0.49328
+2028,Female,Multirace,15442,31163,0.49552
+2028,Female,Native Hawaiian/Pacific Islander,6039,11525,0.52399
+2028,Female,White,158861,315993,0.50274
+2028,Male,American Indian/Alaskan Native,690,1429,0.48286
+2028,Male,Asian,94450,200539,0.47098
+2028,Male,Black,11029,20774,0.5309
+2028,Male,Latinx,108438,213999,0.50672
+2028,Male,Multirace,15721,31163,0.50448
+2028,Male,Native Hawaiian/Pacific Islander,5486,11525,0.47601
+2028,Male,White,157132,315993,0.49726
+2029,Female,American Indian/Alaskan Native,751,1453,0.51686
+2029,Female,Asian,106323,201039,0.52887
+2029,Female,Black,9787,20895,0.46839
+2029,Female,Latinx,106259,215360,0.4934
+2029,Female,Multirace,15640,31591,0.49508
+2029,Female,Native Hawaiian/Pacific Islander,6062,11576,0.52367
+2029,Female,White,158829,315970,0.50267
+2029,Male,American Indian/Alaskan Native,702,1453,0.48314
+2029,Male,Asian,94716,201039,0.47113
+2029,Male,Black,11108,20895,0.53161
+2029,Male,Latinx,109101,215360,0.5066
+2029,Male,Multirace,15951,31591,0.50492
+2029,Male,Native Hawaiian/Pacific Islander,5514,11576,0.47633
+2029,Male,White,157141,315970,0.49733
+2030,Female,American Indian/Alaskan Native,746,1455,0.51271
+2030,Female,Asian,106389,201238,0.52867
+2030,Female,Black,9819,21022,0.46708
+2030,Female,Latinx,106922,216707,0.49339
+2030,Female,Multirace,15884,32053,0.49555
+2030,Female,Native Hawaiian/Pacific Islander,6091,11589,0.52558
+2030,Female,White,158866,315942,0.50283
+2030,Male,American Indian/Alaskan Native,709,1455,0.48729
+2030,Male,Asian,94849,201238,0.47133
+2030,Male,Black,11203,21022,0.53292
+2030,Male,Latinx,109785,216707,0.50661
+2030,Male,Multirace,16169,32053,0.50445
+2030,Male,Native Hawaiian/Pacific Islander,5498,11589,0.47442
+2030,Male,White,157076,315942,0.49717
+2031,Female,American Indian/Alaskan Native,756,1471,0.51394
+2031,Female,Asian,106497,201544,0.52841
+2031,Female,Black,9791,21054,0.46504
+2031,Female,Latinx,107551,217906,0.49357
+2031,Female,Multirace,16102,32477,0.4958
+2031,Female,Native Hawaiian/Pacific Islander,6120,11630,0.52623
+2031,Female,White,158857,315797,0.50304
+2031,Male,American Indian/Alaskan Native,715,1471,0.48606
+2031,Male,Asian,95047,201544,0.47159
+2031,Male,Black,11263,21054,0.53496
+2031,Male,Latinx,110355,217906,0.50643
+2031,Male,Multirace,16375,32477,0.5042
+2031,Male,Native Hawaiian/Pacific Islander,5510,11630,0.47377
+2031,Male,White,156940,315797,0.49696
+2032,Female,American Indian/Alaskan Native,762,1484,0.51348
+2032,Female,Asian,106609,201817,0.52825
+2032,Female,Black,9802,21130,0.46389
+2032,Female,Latinx,108163,219116,0.49363
+2032,Female,Multirace,16294,32944,0.4946
+2032,Female,Native Hawaiian/Pacific Islander,6128,11624,0.52719
+2032,Female,White,158829,315691,0.50312
+2032,Male,American Indian/Alaskan Native,722,1484,0.48652
+2032,Male,Asian,95208,201817,0.47175
+2032,Male,Black,11328,21130,0.53611
+2032,Male,Latinx,110953,219116,0.50637
+2032,Male,Multirace,16650,32944,0.5054
+2032,Male,Native Hawaiian/Pacific Islander,5496,11624,0.47281
+2032,Male,White,156862,315691,0.49688
+2033,Female,American Indian/Alaskan Native,769,1496,0.51404
+2033,Female,Asian,106658,201901,0.52827
+2033,Female,Black,9827,21225,0.46299
+2033,Female,Latinx,108706,220119,0.49385
+2033,Female,Multirace,16498,33362,0.49451
+2033,Female,Native Hawaiian/Pacific Islander,6127,11626,0.52701
+2033,Female,White,158873,315649,0.50332
+2033,Male,American Indian/Alaskan Native,727,1496,0.48596
+2033,Male,Asian,95243,201901,0.47173
+2033,Male,Black,11398,21225,0.53701
+2033,Male,Latinx,111413,220119,0.50615
+2033,Male,Multirace,16864,33362,0.50549
+2033,Male,Native Hawaiian/Pacific Islander,5499,11626,0.47299
+2033,Male,White,156776,315649,0.49668
+2034,Female,American Indian/Alaskan Native,778,1510,0.51523
+2034,Female,Asian,106794,202129,0.52835
+2034,Female,Black,9818,21253,0.46196
+2034,Female,Latinx,109275,221252,0.49389
+2034,Female,Multirace,16681,33787,0.49371
+2034,Female,Native Hawaiian/Pacific Islander,6139,11620,0.52831
+2034,Female,White,158738,315394,0.5033
+2034,Male,American Indian/Alaskan Native,732,1510,0.48477
+2034,Male,Asian,95335,202129,0.47165
+2034,Male,Black,11435,21253,0.53804
+2034,Male,Latinx,111977,221252,0.50611
+2034,Male,Multirace,17106,33787,0.50629
+2034,Male,Native Hawaiian/Pacific Islander,5481,11620,0.47169
+2034,Male,White,156656,315394,0.4967
+2035,Female,American Indian/Alaskan Native,789,1521,0.51874
+2035,Female,Asian,106857,202251,0.52834
+2035,Female,Black,9831,21331,0.46088
+2035,Female,Latinx,109755,222094,0.49418
+2035,Female,Multirace,16924,34246,0.49419
+2035,Female,Native Hawaiian/Pacific Islander,6143,11651,0.52725
+2035,Female,White,158674,315159,0.50347
+2035,Male,American Indian/Alaskan Native,732,1521,0.48126
+2035,Male,Asian,95394,202251,0.47166
+2035,Male,Black,11500,21331,0.53912
+2035,Male,Latinx,112339,222094,0.50582
+2035,Male,Multirace,17322,34246,0.50581
+2035,Male,Native Hawaiian/Pacific Islander,5508,11651,0.47275
+2035,Male,White,156485,315159,0.49653
+2036,Female,American Indian/Alaskan Native,794,1530,0.51895
+2036,Female,Asian,106886,202365,0.52818
+2036,Female,Black,9829,21376,0.45981
+2036,Female,Latinx,110247,223025,0.49433
+2036,Female,Multirace,17145,34706,0.49401
+2036,Female,Native Hawaiian/Pacific Islander,6146,11619,0.52896
+2036,Female,White,158490,314752,0.50354
+2036,Male,American Indian/Alaskan Native,736,1530,0.48105
+2036,Male,Asian,95479,202365,0.47182
+2036,Male,Black,11547,21376,0.54019
+2036,Male,Latinx,112778,223025,0.50567
+2036,Male,Multirace,17561,34706,0.50599
+2036,Male,Native Hawaiian/Pacific Islander,5473,11619,0.47104
+2036,Male,White,156262,314752,0.49646
+2037,Female,American Indian/Alaskan Native,798,1552,0.51418
+2037,Female,Asian,106826,202349,0.52793
+2037,Female,Black,9829,21476,0.45767
+2037,Female,Latinx,110686,223980,0.49418
+2037,Female,Multirace,17378,35182,0.49395
+2037,Female,Native Hawaiian/Pacific Islander,6158,11634,0.52931
+2037,Female,White,158385,314468,0.50366
+2037,Male,American Indian/Alaskan Native,754,1552,0.48582
+2037,Male,Asian,95523,202349,0.47207
+2037,Male,Black,11647,21476,0.54233
+2037,Male,Latinx,113294,223980,0.50582
+2037,Male,Multirace,17804,35182,0.50605
+2037,Male,Native Hawaiian/Pacific Islander,5476,11634,0.47069
+2037,Male,White,156083,314468,0.49634
+2038,Female,American Indian/Alaskan Native,806,1551,0.51966
+2038,Female,Asian,106804,202365,0.52778
+2038,Female,Black,9816,21507,0.45641
+2038,Female,Latinx,111215,224935,0.49443
+2038,Female,Multirace,17609,35632,0.49419
+2038,Female,Native Hawaiian/Pacific Islander,6193,11661,0.53109
+2038,Female,White,158269,313993,0.50405
+2038,Male,American Indian/Alaskan Native,745,1551,0.48034
+2038,Male,Asian,95561,202365,0.47222
+2038,Male,Black,11691,21507,0.54359
+2038,Male,Latinx,113720,224935,0.50557
+2038,Male,Multirace,18023,35632,0.50581
+2038,Male,Native Hawaiian/Pacific Islander,5468,11661,0.46891
+2038,Male,White,155724,313993,0.49595
+2039,Female,American Indian/Alaskan Native,809,1580,0.51203
+2039,Female,Asian,106722,202233,0.52772
+2039,Female,Black,9802,21556,0.45472
+2039,Female,Latinx,111678,225728,0.49475
+2039,Female,Multirace,17845,36116,0.4941
+2039,Female,Native Hawaiian/Pacific Islander,6205,11671,0.53166
+2039,Female,White,158110,313478,0.50437
+2039,Male,American Indian/Alaskan Native,771,1580,0.48797
+2039,Male,Asian,95511,202233,0.47228
+2039,Male,Black,11754,21556,0.54528
+2039,Male,Latinx,114050,225728,0.50525
+2039,Male,Multirace,18271,36116,0.5059
+2039,Male,Native Hawaiian/Pacific Islander,5466,11671,0.46834
+2039,Male,White,155368,313478,0.49563
+2040,Female,American Indian/Alaskan Native,798,1556,0.51285
+2040,Female,Asian,106674,202126,0.52776
+2040,Female,Black,9796,21588,0.45377
+2040,Female,Latinx,112179,226555,0.49515
+2040,Female,Multirace,18100,36619,0.49428
+2040,Female,Native Hawaiian/Pacific Islander,6203,11669,0.53158
+2040,Female,White,157942,312985,0.50463
+2040,Male,American Indian/Alaskan Native,758,1556,0.48715
+2040,Male,Asian,95452,202126,0.47224
+2040,Male,Black,11792,21588,0.54623
+2040,Male,Latinx,114376,226555,0.50485
+2040,Male,Multirace,18519,36619,0.50572
+2040,Male,Native Hawaiian/Pacific Islander,5466,11669,0.46842
+2040,Male,White,155043,312985,0.49537
+2041,Female,American Indian/Alaskan Native,807,1565,0.51565
+2041,Female,Asian,106615,202042,0.52769
+2041,Female,Black,9782,21632,0.4522
+2041,Female,Latinx,112636,227306,0.49553
+2041,Female,Multirace,18323,37086,0.49407
+2041,Female,Native Hawaiian/Pacific Islander,6192,11662,0.53096
+2041,Female,White,157702,312417,0.50478
+2041,Male,American Indian/Alaskan Native,758,1565,0.48435
+2041,Male,Asian,95427,202042,0.47231
+2041,Male,Black,11850,21632,0.5478
+2041,Male,Latinx,114670,227306,0.50447
+2041,Male,Multirace,18763,37086,0.50593
+2041,Male,Native Hawaiian/Pacific Islander,5470,11662,0.46904
+2041,Male,White,154715,312417,0.49522
+2042,Female,American Indian/Alaskan Native,812,1573,0.51621
+2042,Female,Asian,106599,201974,0.52779
+2042,Female,Black,9767,21638,0.45138
+2042,Female,Latinx,113087,227998,0.496
+2042,Female,Multirace,18541,37527,0.49407
+2042,Female,Native Hawaiian/Pacific Islander,6186,11640,0.53144
+2042,Female,White,157622,311977,0.50524
+2042,Male,American Indian/Alaskan Native,761,1573,0.48379
+2042,Male,Asian,95375,201974,0.47221
+2042,Male,Black,11871,21638,0.54862
+2042,Male,Latinx,114911,227998,0.504
+2042,Male,Multirace,18986,37527,0.50593
+2042,Male,Native Hawaiian/Pacific Islander,5454,11640,0.46856
+2042,Male,White,154355,311977,0.49476
+2043,Female,American Indian/Alaskan Native,813,1586,0.51261
+2043,Female,Asian,106533,201791,0.52794
+2043,Female,Black,9762,21655,0.4508
+2043,Female,Latinx,113523,228660,0.49647
+2043,Female,Multirace,18761,37970,0.4941
+2043,Female,Native Hawaiian/Pacific Islander,6173,11606,0.53188
+2043,Female,White,157334,311310,0.50539
+2043,Male,American Indian/Alaskan Native,773,1586,0.48739
+2043,Male,Asian,95258,201791,0.47206
+2043,Male,Black,11893,21655,0.5492
+2043,Male,Latinx,115137,228660,0.50353
+2043,Male,Multirace,19209,37970,0.5059
+2043,Male,Native Hawaiian/Pacific Islander,5433,11606,0.46812
+2043,Male,White,153976,311310,0.49461
+2044,Female,American Indian/Alaskan Native,814,1580,0.51519
+2044,Female,Asian,106339,201561,0.52758
+2044,Female,Black,9732,21658,0.44935
+2044,Female,Latinx,113946,229340,0.49684
+2044,Female,Multirace,19001,38450,0.49417
+2044,Female,Native Hawaiian/Pacific Islander,6158,11570,0.53224
+2044,Female,White,157221,310894,0.50571
+2044,Male,American Indian/Alaskan Native,766,1580,0.48481
+2044,Male,Asian,95222,201561,0.47242
+2044,Male,Black,11926,21658,0.55065
+2044,Male,Latinx,115394,229340,0.50316
+2044,Male,Multirace,19449,38450,0.50583
+2044,Male,Native Hawaiian/Pacific Islander,5412,11570,0.46776
+2044,Male,White,153673,310894,0.49429
+2045,Female,American Indian/Alaskan Native,829,1598,0.51877
+2045,Female,Asian,106120,201304,0.52716
+2045,Female,Black,9713,21672,0.44818
+2045,Female,Latinx,114198,229851,0.49683
+2045,Female,Multirace,19173,38836,0.49369
+2045,Female,Native Hawaiian/Pacific Islander,6130,11534,0.53147
+2045,Female,White,157000,310392,0.50581
+2045,Male,American Indian/Alaskan Native,769,1598,0.48123
+2045,Male,Asian,95184,201304,0.47284
+2045,Male,Black,11959,21672,0.55182
+2045,Male,Latinx,115653,229851,0.50317
+2045,Male,Multirace,19663,38836,0.50631
+2045,Male,Native Hawaiian/Pacific Islander,5404,11534,0.46853
+2045,Male,White,153392,310392,0.49419
+2046,Female,American Indian/Alaskan Native,832,1603,0.51903
+2046,Female,Asian,106000,201156,0.52695
+2046,Female,Black,9724,21718,0.44774
+2046,Female,Latinx,114584,230365,0.4974
+2046,Female,Multirace,19404,39309,0.49363
+2046,Female,Native Hawaiian/Pacific Islander,6099,11478,0.53136
+2046,Female,White,156677,309778,0.50577
+2046,Male,American Indian/Alaskan Native,771,1603,0.48097
+2046,Male,Asian,95156,201156,0.47305
+2046,Male,Black,11994,21718,0.55226
+2046,Male,Latinx,115781,230365,0.5026
+2046,Male,Multirace,19905,39309,0.50637
+2046,Male,Native Hawaiian/Pacific Islander,5379,11478,0.46864
+2046,Male,White,153101,309778,0.49423
+2047,Female,American Indian/Alaskan Native,844,1621,0.52067
+2047,Female,Asian,105826,200829,0.52695
+2047,Female,Black,9712,21714,0.44727
+2047,Female,Latinx,114783,230699,0.49754
+2047,Female,Multirace,19604,39709,0.49369
+2047,Female,Native Hawaiian/Pacific Islander,6108,11474,0.53233
+2047,Female,White,156356,309171,0.50573
+2047,Male,American Indian/Alaskan Native,777,1621,0.47933
+2047,Male,Asian,95003,200829,0.47305
+2047,Male,Black,12002,21714,0.55273
+2047,Male,Latinx,115916,230699,0.50246
+2047,Male,Multirace,20105,39709,0.50631
+2047,Male,Native Hawaiian/Pacific Islander,5366,11474,0.46767
+2047,Male,White,152815,309171,0.49427
+2048,Female,American Indian/Alaskan Native,843,1613,0.52263
+2048,Female,Asian,105637,200547,0.52674
+2048,Female,Black,9683,21699,0.44624
+2048,Female,Latinx,114950,230920,0.49779
+2048,Female,Multirace,19840,40150,0.49415
+2048,Female,Native Hawaiian/Pacific Islander,6093,11441,0.53256
+2048,Female,White,156172,308709,0.50589
+2048,Male,American Indian/Alaskan Native,770,1613,0.47737
+2048,Male,Asian,94910,200547,0.47326
+2048,Male,Black,12016,21699,0.55376
+2048,Male,Latinx,115970,230920,0.50221
+2048,Male,Multirace,20310,40150,0.50585
+2048,Male,Native Hawaiian/Pacific Islander,5348,11441,0.46744
+2048,Male,White,152537,308709,0.49411
+2049,Female,American Indian/Alaskan Native,848,1626,0.52153
+2049,Female,Asian,105436,200266,0.52648
+2049,Female,Black,9691,21698,0.44663
+2049,Female,Latinx,115069,231185,0.49774
+2049,Female,Multirace,20056,40581,0.49422
+2049,Female,Native Hawaiian/Pacific Islander,6079,11397,0.53339
+2049,Female,White,155887,307985,0.50615
+2049,Male,American Indian/Alaskan Native,778,1626,0.47847
+2049,Male,Asian,94830,200266,0.47352
+2049,Male,Black,12007,21698,0.55337
+2049,Male,Latinx,116116,231185,0.50226
+2049,Male,Multirace,20525,40581,0.50578
+2049,Male,Native Hawaiian/Pacific Islander,5318,11397,0.46661
+2049,Male,White,152098,307985,0.49385
+2050,Female,American Indian/Alaskan Native,851,1637,0.51985
+2050,Female,Asian,105270,200002,0.52634
+2050,Female,Black,9673,21702,0.44572
+2050,Female,Latinx,115253,231455,0.49795
+2050,Female,Multirace,20252,40973,0.49428
+2050,Female,Native Hawaiian/Pacific Islander,6063,11362,0.53362
+2050,Female,White,155696,307512,0.50631
+2050,Male,American Indian/Alaskan Native,786,1637,0.48015
+2050,Male,Asian,94732,200002,0.47366
+2050,Male,Black,12029,21702,0.55428
+2050,Male,Latinx,116202,231455,0.50205
+2050,Male,Multirace,20721,40973,0.50572
+2050,Male,Native Hawaiian/Pacific Islander,5299,11362,0.46638
+2050,Male,White,151816,307512,0.49369
+2051,Female,American Indian/Alaskan Native,860,1627,0.52858
+2051,Female,Asian,104964,199645,0.52575
+2051,Female,Black,9649,21713,0.44439
+2051,Female,Latinx,115334,231505,0.49819
+2051,Female,Multirace,20451,41378,0.49425
+2051,Female,Native Hawaiian/Pacific Islander,6050,11341,0.53346
+2051,Female,White,155536,306970,0.50668
+2051,Male,American Indian/Alaskan Native,767,1627,0.47142
+2051,Male,Asian,94681,199645,0.47425
+2051,Male,Black,12064,21713,0.55561
+2051,Male,Latinx,116171,231505,0.50181
+2051,Male,Multirace,20927,41378,0.50575
+2051,Male,Native Hawaiian/Pacific Islander,5291,11341,0.46654
+2051,Male,White,151434,306970,0.49332
+2052,Female,American Indian/Alaskan Native,870,1644,0.5292
+2052,Female,Asian,104712,199266,0.52549
+2052,Female,Black,9644,21733,0.44375
+2052,Female,Latinx,115439,231560,0.49853
+2052,Female,Multirace,20625,41772,0.49375
+2052,Female,Native Hawaiian/Pacific Islander,6015,11276,0.53343
+2052,Female,White,155155,306234,0.50666
+2052,Male,American Indian/Alaskan Native,774,1644,0.4708
+2052,Male,Asian,94554,199266,0.47451
+2052,Male,Black,12089,21733,0.55625
+2052,Male,Latinx,116121,231560,0.50147
+2052,Male,Multirace,21147,41772,0.50625
+2052,Male,Native Hawaiian/Pacific Islander,5261,11276,0.46657
+2052,Male,White,151079,306234,0.49334
+2053,Female,American Indian/Alaskan Native,870,1652,0.52663
+2053,Female,Asian,104458,198904,0.52517
+2053,Female,Black,9617,21736,0.44245
+2053,Female,Latinx,115552,231615,0.4989
+2053,Female,Multirace,20792,42140,0.4934
+2053,Female,Native Hawaiian/Pacific Islander,6021,11251,0.53515
+2053,Female,White,154901,305677,0.50675
+2053,Male,American Indian/Alaskan Native,782,1652,0.47337
+2053,Male,Asian,94446,198904,0.47483
+2053,Male,Black,12119,21736,0.55755
+2053,Male,Latinx,116063,231615,0.5011
+2053,Male,Multirace,21348,42140,0.5066
+2053,Male,Native Hawaiian/Pacific Islander,5230,11251,0.46485
+2053,Male,White,150776,305677,0.49325
+2054,Female,American Indian/Alaskan Native,884,1671,0.52902
+2054,Female,Asian,104150,198443,0.52484
+2054,Female,Black,9621,21744,0.44247
+2054,Female,Latinx,115628,231634,0.49918
+2054,Female,Multirace,20943,42446,0.4934
+2054,Female,Native Hawaiian/Pacific Islander,5998,11188,0.53611
+2054,Female,White,154627,305055,0.50688
+2054,Male,American Indian/Alaskan Native,787,1671,0.47098
+2054,Male,Asian,94293,198443,0.47516
+2054,Male,Black,12123,21744,0.55753
+2054,Male,Latinx,116006,231634,0.50082
+2054,Male,Multirace,21503,42446,0.5066
+2054,Male,Native Hawaiian/Pacific Islander,5190,11188,0.46389
+2054,Male,White,150428,305055,0.49312
+2055,Female,American Indian/Alaskan Native,888,1677,0.52952
+2055,Female,Asian,103999,198100,0.52498
+2055,Female,Black,9602,21729,0.4419
+2055,Female,Latinx,115649,231555,0.49945
+2055,Female,Multirace,21118,42841,0.49294
+2055,Female,Native Hawaiian/Pacific Islander,5976,11132,0.53683
+2055,Female,White,154314,304345,0.50704
+2055,Male,American Indian/Alaskan Native,789,1677,0.47048
+2055,Male,Asian,94101,198100,0.47502
+2055,Male,Black,12127,21729,0.5581
+2055,Male,Latinx,115906,231555,0.50055
+2055,Male,Multirace,21723,42841,0.50706
+2055,Male,Native Hawaiian/Pacific Islander,5156,11132,0.46317
+2055,Male,White,150031,304345,0.49296
+2056,Female,American Indian/Alaskan Native,891,1684,0.5291
+2056,Female,Asian,103729,197688,0.52471
+2056,Female,Black,9607,21732,0.44207
+2056,Female,Latinx,115588,231278,0.49978
+2056,Female,Multirace,21243,43144,0.49237
+2056,Female,Native Hawaiian/Pacific Islander,5948,11066,0.5375
+2056,Female,White,154061,303702,0.50728
+2056,Male,American Indian/Alaskan Native,793,1684,0.4709
+2056,Male,Asian,93959,197688,0.47529
+2056,Male,Black,12125,21732,0.55793
+2056,Male,Latinx,115690,231278,0.50022
+2056,Male,Multirace,21901,43144,0.50763
+2056,Male,Native Hawaiian/Pacific Islander,5118,11066,0.4625
+2056,Male,White,149641,303702,0.49272
+2057,Female,American Indian/Alaskan Native,904,1709,0.52896
+2057,Female,Asian,103468,197260,0.52453
+2057,Female,Black,9634,21779,0.44235
+2057,Female,Latinx,115512,230969,0.50012
+2057,Female,Multirace,21406,43444,0.49273
+2057,Female,Native Hawaiian/Pacific Islander,5921,11015,0.53754
+2057,Female,White,153748,303069,0.5073
+2057,Male,American Indian/Alaskan Native,805,1709,0.47104
+2057,Male,Asian,93792,197260,0.47547
+2057,Male,Black,12145,21779,0.55765
+2057,Male,Latinx,115457,230969,0.49988
+2057,Male,Multirace,22038,43444,0.50727
+2057,Male,Native Hawaiian/Pacific Islander,5094,11015,0.46246
+2057,Male,White,149321,303069,0.4927
+2058,Female,American Indian/Alaskan Native,912,1719,0.53054
+2058,Female,Asian,103131,196704,0.5243
+2058,Female,Black,9656,21828,0.44237
+2058,Female,Latinx,115468,230627,0.50067
+2058,Female,Multirace,21543,43739,0.49254
+2058,Female,Native Hawaiian/Pacific Islander,5886,10960,0.53704
+2058,Female,White,153358,302330,0.50725
+2058,Male,American Indian/Alaskan Native,807,1719,0.46946
+2058,Male,Asian,93573,196704,0.4757
+2058,Male,Black,12172,21828,0.55763
+2058,Male,Latinx,115159,230627,0.49933
+2058,Male,Multirace,22196,43739,0.50746
+2058,Male,Native Hawaiian/Pacific Islander,5074,10960,0.46296
+2058,Male,White,148972,302330,0.49275
+2059,Female,American Indian/Alaskan Native,907,1723,0.52641
+2059,Female,Asian,102839,196195,0.52417
+2059,Female,Black,9656,21868,0.44156
+2059,Female,Latinx,115372,230315,0.50093
+2059,Female,Multirace,21671,44007,0.49244
+2059,Female,Native Hawaiian/Pacific Islander,5841,10886,0.53656
+2059,Female,White,153165,301795,0.50751
+2059,Male,American Indian/Alaskan Native,816,1723,0.47359
+2059,Male,Asian,93356,196195,0.47583
+2059,Male,Black,12212,21868,0.55844
+2059,Male,Latinx,114943,230315,0.49907
+2059,Male,Multirace,22336,44007,0.50756
+2059,Male,Native Hawaiian/Pacific Islander,5045,10886,0.46344
+2059,Male,White,148630,301795,0.49249
+2060,Female,American Indian/Alaskan Native,925,1752,0.52797
+2060,Female,Asian,102450,195604,0.52376
+2060,Female,Black,9667,21887,0.44168
+2060,Female,Latinx,115200,229900,0.50109
+2060,Female,Multirace,21782,44293,0.49177
+2060,Female,Native Hawaiian/Pacific Islander,5807,10815,0.53694
+2060,Female,White,152905,301228,0.50761
+2060,Male,American Indian/Alaskan Native,827,1752,0.47203
+2060,Male,Asian,93154,195604,0.47624
+2060,Male,Black,12220,21887,0.55832
+2060,Male,Latinx,114700,229900,0.49891
+2060,Male,Multirace,22511,44293,0.50823
+2060,Male,Native Hawaiian/Pacific Islander,5008,10815,0.46306
+2060,Male,White,148323,301228,0.49239

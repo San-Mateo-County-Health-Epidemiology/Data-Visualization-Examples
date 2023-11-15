@@ -11,32 +11,11 @@ library(gridExtra)
 library(ggtext)
 
 # load data ------------------------------------
-## dof P3 ----
-dof <- read.csv("J:/Epi Data/DoF Population Projections/P3_Complete released on 7.14.2021/P3_Complete.csv")
-
-## get what we want
-dof1 <- dof %>%
-  rename(age = agerc) %>%
-  filter(fips == "6081") %>%
-  mutate(sex = str_to_title(sex),
-         race_cat = case_when(race7 == 1 ~ "White",
-                              race7 == 2 ~ "Black",
-                              race7 == 3 ~ "American Indian/Alaskan Native",
-                              race7 == 4 ~ "Asian",
-                              race7 == 5 ~ "Native Hawaiian/Pacific Islander",
-                              race7 == 6 ~ "Multirace",
-                              race7 == 7 ~ "Latinx")) %>%
-  group_by(year, sex, race_cat) %>%
-  summarize(pop = sum(perwt),
-            .groups = "keep") %>%
-  ungroup() %>%
-  group_by(year, race_cat) %>%
-  mutate(total = sum(pop)) %>%
-  rowwise() %>%
-  mutate(prop = round(pop/total, 5)) %>%
-  ungroup() 
+## cleaned dof P3 ----
+dof <- read.csv("data//dof_estimates_sex_race.csv")
 
 ```
+
 ```{r make charts}
 # visualize -------------------------------------
 ## goal: see how the population changed over time ----
@@ -45,7 +24,7 @@ male_color <- "#ffce00"
 female_color <- "#006cb6"
 
 ### make the plot ----
-plot <- ggplot(dof1) +
+plot <- ggplot(dof) +
   geom_line(aes(x = year, y = prop, group = sex, color = sex), 
             size = 1.5) + 
   scale_color_manual(values = c("Female" = female_color,
