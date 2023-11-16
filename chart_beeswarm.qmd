@@ -11,7 +11,11 @@ This code was adapted from Stephanie Evergreen's Code for Beeswarm Plots. [This 
 ## Example code
 
 ```{r setup}
-
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
 library(dplyr)
 library(ggplot2)
 library(grid)

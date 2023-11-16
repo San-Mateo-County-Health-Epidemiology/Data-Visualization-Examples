@@ -1,4 +1,4 @@
-year,sex,race_cat,pop,total,prop
+year,sex,race_cat,pop_race_sex,pop_race,prop
 2010,Female,American Indian/Alaskan Native,611,1176,0.51956
 2010,Female,Asian,94834,178346,0.53174
 2010,Female,Black,9363,19077,0.4908

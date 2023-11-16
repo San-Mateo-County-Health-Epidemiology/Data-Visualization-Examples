@@ -1,94 +1,144 @@
 ---
 title: "Small multiples"
+
 ---
 
 ```{r setup}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	warn.conflicts = FALSE
+)
+```
 
-library(tidyverse)
+## When to use small multiples
+
+If you're trying to look at multiple categories for multiple subgroups over time, you might want to consider using small multiples instead of trying to cram everything into one chart. Presenting your data as a series of small charts, one per subgroup, allows viewers to more easily see the changes in each category per group and can allow them to effectively compare across groups.
+
+Making a lot of small charts instead of one big might seem like it will take a long time, but luckily for us, the `facet_wrap` function exists. This allows you to quickly and easily create one chart per subgroup.
+
+## R code
+
+Get the packages that you need:
+
+```{r}
+library(dplyr)
 library(ggplot2)
 library(grid)
 library(gridExtra)
-library(ggtext)
+```
 
-# load data ------------------------------------
-## cleaned dof P3 ----
+Load the data. For this example, we're using a filtered and summarized version of the [California Department of Finance's P-3 file](https://dof.ca.gov/forecasting/demographics/projections/) from July, 2023.
+
+-   `year`: this is the year for the population projection
+-   `sex`: this is sex and only includes male and female categories
+-   `race_cat`: this is the single race/ethnicity value
+-   `pop_race_sex`: this is the population of the race and sex group for each year (ex: Female American Indian/Alaskan Natives in 2010)
+-   `pop_race`: this is the population of the race group for each year (ex: Male + Female American Indian/Alaskan Natives in 2010)
+-   `prop`: this is `pop_race_sex`/`pop_race`
+
+```{r}
 dof <- read.csv("data//dof_estimates_sex_race.csv")
+
+glimpse(dof)
 
 ```
 
-```{r make charts}
-# visualize -------------------------------------
-## goal: see how the population changed over time ----
-### set the colors ----
-male_color <- "#ffce00"
-female_color <- "#006cb6"
+We want to see how the proportion of female and male residents will change over time for each race/ethnicity group. If we were to put all of the lines on the same chart, it would be a mess:
 
-### make the plot ----
+```{r}
+ggplot(dof) +
+  geom_line(aes(x = year, y = prop, group = sex, color = sex), 
+            size = 1.5)
+```
+
+Instead, we can use small multiples and make one chart per race/ethnicity group.
+
+To do this, we'll use `facet_wrap`. The first argument is the categorical variable for which you want one chart per category. This variable should have a tilde (`~`) in front of it. Then you can use the `ncol` or `nrow` arugments to specify the number of rows or columns you want to display the small multiples. You can use both `ncol` and `nrow` if you want, but don't need to use both.
+
+```{r make charts, dpi = 600, fig.dim = c(9, 10)}
 plot <- ggplot(dof) +
   geom_line(aes(x = year, y = prop, group = sex, color = sex), 
             size = 1.5) + 
-  scale_color_manual(values = c("Female" = female_color,
-                               "Male" = male_color)) + 
   facet_wrap(~race_cat,
-             nrow = 2) + 
-  scale_y_continuous(
-    labels = scales::percent,
-    breaks = 0.5,
-  ) + 
-  theme_minimal() + 
-  theme(
-    panel.grid.minor = element_blank(),
-    panel.grid.major.x = element_blank(),
-    panel.grid.major.y = element_line(size = 0.001, color = "black"),
-    axis.title = element_blank(),
-    axis.text = element_text(face = "bold"),
-    axis.text.x = element_text(size = 10),
-    strip.text.x = element_text(size = 11, face = "bold"),
-    legend.position = "top",
-    panel.background = element_rect(fill = "#F8F9F9", 
-                                    color = "#F8F9F9")
-    
-  ) 
+             nrow = 4)
+plot
+```
 
-### make the title ----
-plot_title <- grobTree(
-  gp = gpar(fontsize = 14, fontface = "bold"), 
-  textGrob(label = "Projected percentage of  ", 
-           name = "first_part",
-           x = unit(0.2, "lines"), 
-           y = unit(0.5, "lines"), 
-           hjust = 0, 
-           vjust = 0),
-  textGrob(label = "Female", 
-           name = "female",
-           x = grobWidth("first_part") + unit(0.2, "lines"), 
-           y = unit(0.5, "lines"),
-           hjust = 0, 
-           vjust = 0, 
-           gp = gpar(col = female_color)),
-  textGrob(label = " and ", 
-           name = "second_part",
-           x = grobWidth("first_part") + grobWidth("female") + unit(0.2, "lines"), 
-           y = unit(0.5, "lines"),
-           hjust = 0, 
-           vjust = 0),
-  textGrob(label = "Male", 
-           name = "male",
-           x = grobWidth("first_part") + grobWidth("female") + grobWidth("second_part") + unit(0.2, "lines"), 
-           y = unit(0.5, "lines"),
-           hjust = 0, 
-           vjust = 0, 
-           gp = gpar(col = male_color)),
-  textGrob(label = " residents by race/ethnicity.", 
-           name = "last_part",
-           x = grobWidth("first_part") + grobWidth("female") + grobWidth("second_part") + grobWidth("male") + unit(0.2, "lines"), 
-           y = unit(0.5, "lines"),
-           hjust = 0, 
-           vjust = 0)
-  )
-  
-## put it all together ----
-combined_plot <- arrangeGrob(plot, top=plot_title, padding = unit(2.6, "line"))
-  
-grid.arrange(combined_plot)
+Now, all that's left is to make the chart look nicer.
+
+We can set colors for the categories:
+
+```{r, fig.dim = c(9, 10)}
+# set the colors we want to use in our chart 
+male_color <- "#ffce00"
+female_color <- "#006cb6"
+
+plot1 <- plot +
+  scale_color_manual(values = c("Female" = female_color, "Male" = male_color))
+plot1
+```
+
+Here we can specify we want the y values to appear as percents instead of decimals (`labels = scales::percent`) and can specify where we want lines to appear (`breaks`). We can also use the `theme()` function to specify if and how axis labels appear, if and how gridlines appear, legend position and background color.
+
+```{r, fig.dim = c(9, 10)}
+plot2 <- plot1 +
+  scale_y_continuous(labels = scales::percent, 
+                     breaks = 0.5) + 
+  theme_minimal() + 
+  theme(panel.grid.minor = element_blank(), 
+        panel.grid.major.x = element_blank(), 
+        panel.grid.major.y = element_line(size = 0.001, color = "black"), 
+        axis.title = element_blank(), 
+        axis.text = element_text(face = "bold"), 
+        axis.text.x = element_text(size = 10), 
+        strip.text.x = element_text(size = 11, face = "bold"), 
+        legend.position = "top", 
+        panel.background = element_rect(fill = "#F8F9F9", color = "#F8F9F9"))
+plot2
+```
+
+Lastly, we should add a title to the charts. You can use `grobTree` function from the `grid` package to make a pretty title with colors that match your chart. This code was adapted from Stephanie Evergreen.
+
+```{r}
+# make the title 
+plot_title <- grobTree(gp = gpar(fontsize = 14, fontface = "bold"), 
+                       textGrob(label = "Projected percentage of ", 
+                                name = "first_part", 
+                                x = unit(0.2, "lines"), 
+                                y = unit(0.5, "lines"), 
+                                hjust = 0, vjust = 0), 
+                       textGrob(label = "Female", 
+                                name = "female", 
+                                x = grobWidth("first_part") + unit(0.2, "lines"), 
+                                y = unit(0.5, "lines"), 
+                                hjust = 0, vjust = 0, 
+                                gp = gpar(col = female_color)), 
+                       textGrob(label = " and ", 
+                                name ="second_part", 
+                                x = grobWidth("first_part") + grobWidth("female") + unit(0.2, "lines"), 
+                                y = unit(0.5, "lines"), 
+                                hjust = 0, vjust = 0), 
+                       textGrob(label = "Male", 
+                                name = "male", 
+                                x = grobWidth("first_part") + grobWidth("female") + grobWidth("second_part") + unit(0.2, "lines"), 
+                                y = unit(0.5, "lines"), 
+                                hjust = 0, vjust = 0, 
+                                gp = gpar(col = male_color)), 
+                       textGrob(label = " residents by race/ethnicity.", 
+                                name = "last_part", 
+                                x = grobWidth("first_part") + grobWidth("female") + grobWidth("second_part") + grobWidth("male") + unit(0.2, "lines"), 
+                                y = unit(0.5, "lines"), 
+                                hjust = 0, vjust = 0) )
+
+# add the title back to the chart
+plot3 <- arrangeGrob(plot2, 
+                     top = plot_title, 
+                     padding = unit(2.6, "line"))
+
+```
+
+```{r, dpi = 600, fig.dim = c(9, 11)}
+grid.arrange(plot3) 
 ```

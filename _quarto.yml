@@ -14,9 +14,11 @@ website:
     search: true
     contents: 
       - index.qmd
-      - chart_bar.qmd
-      - chart_beeswarm.qmd
-      - chart_small-multiples.qmd
+      - section: "Charts"
+        contents: 
+        - chart_bar.qmd
+        - chart_beeswarm.qmd
+        - chart_small-multiples.qmd
 
 format:
   html:

@@ -3,7 +3,7 @@ title: "Bar charts"
 ---
 
 ```{r setup}
-
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(dplyr)
 library(ggplot2)
 library(grid)
