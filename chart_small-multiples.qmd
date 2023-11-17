@@ -1,16 +1,6 @@
 ---
 title: "Small multiples"
-
 ---
-
-```{r setup}
-knitr::opts_chunk$set(
-	echo = TRUE,
-	message = FALSE,
-	warning = FALSE,
-	warn.conflicts = FALSE
-)
-```
 
 ## When to use small multiples
 
@@ -21,6 +11,15 @@ Making a lot of small charts instead of one big might seem like it will take a l
 ## R code
 
 Get the packages that you need:
+
+```{r setup}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	warn.conflicts = FALSE
+)
+```
 
 ```{r}
 library(dplyr)
