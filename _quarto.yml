@@ -13,7 +13,6 @@ website:
     style: "floating"
     search: true
     contents: 
-      - index.qmd
       - section: "Charts"
         contents: 
         - chart_bar.qmd
