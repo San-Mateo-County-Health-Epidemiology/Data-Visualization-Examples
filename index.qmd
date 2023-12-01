@@ -2,10 +2,49 @@
 title: "Data-Visuzaliation-Examples"
 ---
 
-This is a Quarto website.
+This site contains data visualization examples used by San Mateo County epidemiologists. As such, it will use the San Mateo County style guide colors and will attempt to adhere to other guidelines from the style guide. 
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(flextable)
+library(tidyverse)
 ```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+data1 <- data.frame(
+  `Primary Color` = "blue",
+  `Secondary Colors` = "teal",
+  `Secondary Colors` = "orange",
+  `Secondary Colors` = "purple",
+  `Secondary Colors` = "lime",
+  `Tertiary Colors` = "green",
+  `Tertiary Colors` = "red",
+  `Tertiary Colors` = "yellow"
+)
+
+
+data1 %>%
+  flextable() %>%
+  merge_at(j = 2:5, part = "header") %>%
+  merge_at(j = 6:8, part = "header") %>%
+  align(align = "center", part = "header") %>%
+  bg(i = 1, j = 1, bg = "#056cb6", part = "body") %>%
+  bg(i = 1, j = 2, bg = "#38939b", part = "body") %>%
+  bg(i = 1, j = 3, bg = "#fa8d29", part = "body") %>%
+  bg(i = 1, j = 4, bg = "#a65a95", part = "body") %>%
+  bg(i = 1, j = 5, bg = "#e2e71f", part = "body") %>%
+  bg(i = 1, j = 6, bg = "#009d4e", part = "body") %>%
+  bg(i = 1, j = 7, bg = "#d12a2f", part = "body") %>%
+  bg(i = 1, j = 8, bg = "#fcee00", part = "body") 
+
+```
+
+Choosing charts:
+
+One of the hardest parts about data visualization is deciding which chart type to use. Luckily, Stephanie Evergreen has an amazing tool called the Chart Chooser, which can be downloaded (here)\[https://stephanieevergreen.com/qualitative-chart-chooser-3/\]. This site won't go into the detail she provides, but instead will have examples of how to make specific types of charts.
+
+-   If you want to look at data over multiple time points and have:
+    -   one category: use a line chart
+    -   multiple categories: consider using small multiples
+-   If you want to compare data across two distinct time points or categories, consider using a slope chart
+
+If you want to compare the continuous distribution of a categorical variable and have: - one category: use a bar chart or beeswarm - multiple categories: use a beeswarm or boxplot
