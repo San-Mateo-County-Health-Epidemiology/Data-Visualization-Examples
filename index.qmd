@@ -2,7 +2,7 @@
 title: "Data-Visuzaliation-Examples"
 ---
 
-This site contains data visualization examples used by San Mateo County epidemiologists. As such, it will use the San Mateo County style guide colors and will attempt to adhere to other guidelines from the style guide. 
+This site contains data visualization examples used by San Mateo County epidemiologists. As such, it will use the San Mateo County style guide colors and will attempt to adhere to other guidelines from the style guide.
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library(flextable)
@@ -45,6 +45,7 @@ One of the hardest parts about data visualization is deciding which chart type t
 -   If you want to look at data over multiple time points and have:
     -   one category: use a line chart
     -   multiple categories: consider using small multiples
--   If you want to compare data across two distinct time points or categories, consider using a slope chart
-
-If you want to compare the continuous distribution of a categorical variable and have: - one category: use a bar chart or beeswarm - multiple categories: use a beeswarm or boxplot
+    -   multiple categories and only two time points: slope graph
+-   If you want to compare the continuous distribution of a categorical variable and have:
+    -   one category: use a bar chart or beeswarm
+    -   multiple categories: use a beeswarm or boxplot
