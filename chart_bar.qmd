@@ -4,26 +4,22 @@ title: "Bar charts"
 
 # When to use bar charts
 
-Bar charts are great when you want to compare counts or frequencies across groups. If you have groups that have very different values, you might want to consider changing the scale and using proportions instead. 
+Bar charts are great when you want to compare counts or frequencies for a categorical variable. If you have categories that have very different frequencies (ex: 1,000 in one category and 10 in another), you might want to consider changing the scale and using proportions instead of counts in a bar chart. 
+
+If you're looking at categories for more than one variable (ex: race by gender), consider using small multiples. If possible, avoid using a clustered or stacked bar chart. 
 
 # R code
 
-```{r setup}
-knitr::opts_chunk$set(
-	echo = TRUE,
-	message = FALSE,
-	warning = FALSE,
-	warn.conflicts = FALSE
-)
-```
-
 Get the packages that you need:
 
-```{r }
+```{r 	message = FALSE, warning = FALSE, warn.conflicts = FALSE}
 library(dplyr)
 library(ggplot2)
+library(ggtext)
 library(grid)
 library(gridExtra)
+library(extrafont)
+library(smcepi)
 ```
 
 Load the data. For these charts, we'll use the R dataset called `HairEyeColor`. This data set has frequencies of hair and eye color combinations in a sample of 592 statistics students.
@@ -32,161 +28,113 @@ Load the data. For these charts, we'll use the R dataset called `HairEyeColor`. 
 # load data
 data("HairEyeColor")
 
-# reshape the data
-hair_eye_freq <- HairEyeColor %>%
+```
+
+## Bar chart for one variable
+
+A bar chart is great for looking at the distribution of the categories for a single variable. Make sure to order the variables on your x-axis in a logical way - usually by value or time - and use color to strategically convey a message. 
+
+Here's an example of how to use a bar chart to look at the distribution of eye color in the  `HairEyeColor` dataset from R. 
+
+```{r}
+# save the color(s) you want to use in the title and chart
+brown_color <- "#873600"
+
+# create the title
+title <- gg_color_title("Brown eyes are most common",
+                       c("Brown"), c(brown_color))
+
+# create the plot
+HairEyeColor %>%
+  data.frame() %>%
+  group_by(Eye) %>%
+  summarize(freq = sum(Freq),
+            .groups = "keep") %>%
+  ungroup() %>% 
+  ggplot(aes(x = Eye, 
+             y = freq,
+             fill = Eye)) +
+  scale_fill_manual(values = c("Brown" = brown_color,
+                               "Blue" = "#D5D8DC",
+                               "Hazel" = "#D5D8DC",
+                               "Green" = "#D5D8DC")) + 
+  geom_bar(position = "dodge",
+           stat = "identity") +
+  labs(title = title) +
+  theme_gg_smc() 
+```
+Note that the x-axis is sorted from largest to smallest. The order of the x-axis should either be by size or by some other characteristic (time) that is important to the data. 
+
+## Bar chart for more than 1 categorical variable
+
+Let's say you want to look at the frequency of eye color among people with different hair colors. You should use one chart per hair color or eye color, also known as small multiples!
+
+You might be tempted to use a clustered bar chart, but clustered bar charts are not conducive to comparing across categories. There might be a reason to use a 100% stacked bar chart, so we've included that code here too. 
+
+### Small multiples (preferred)
+
+Small multiples are a great way to compare the distribution of a categorical variable across the categories of another variable. `facet_wrap()` from the `ggplot2` package makes it really easy to create small multiples.
+
+```{r}
+title <- gg_color_title("Brown eyes were most common among all hair colors, <br>
+                        except blondes, for whom blue eyes were most common", 
+                        c("most common", "most common"), c("#006cb6", "#006cb6"))
+
+HairEyeColor %>%
   data.frame() %>%
   group_by(Hair, Eye) %>%
   summarize(freq = sum(Freq),
             .groups = "keep") %>%
   ungroup() %>%
   group_by(Hair) %>%
-  mutate(total = sum(freq),
-         prop = freq/total) %>%
-  ungroup() 
-
-# look at the data
-glimpse(hair_eye_freq)
-```
-## Basic bar charts
-
-### Clustered bar chart
-```{r}
-hair_eye_freq %>% 
-  ggplot(aes(x = Hair, 
-             y = prop,
-             fill = Eye)) +
+  mutate(all_hair = sum(freq),
+         Percent = round(freq/all_hair, 2),
+         val = case_when(Percent == max(Percent) ~ "high",
+                         TRUE ~ "fine")) %>%
+  ungroup() %>%  
+  ggplot(aes(x = Percent, 
+             y = Eye,
+             fill = val)) +
   geom_bar(position = "dodge",
-           stat = "identity")
-```
+           stat = "identity") + 
+  scale_fill_manual(values = c("high" = "#006cb6",
+                               "fine" = "#D5D8DC")) +
+  facet_wrap(~Hair,
+             nrow = 1,
+             ncol = 4) + 
+  labs(title = title) + 
+  scale_x_continuous(labels = scales::percent) + 
+  theme_gg_smc(plot_lines = "none", legend_loc = "none")
 
-### Stacked bar chart
-```{r}
-hair_eye_freq %>% 
-  ggplot(aes(x = Hair, 
-             y = freq,
-             fill = Eye)) +
-  geom_bar(position = "stack",
-           stat = "identity") 
 ```
+### 100% Stacked bar chart (if needed)
 
-### 100% stacked bar chart
+If you really want to make a stacked bar chart, that can be an effective way of comparing the distribution of two categorical variables if there are not too many categories in the chart. Try to stick to 4 or fewer categories in each of your bars. Anything more than that will make comparison really difficult.  
+
 ```{r}
-hair_eye_freq %>% 
+title <- "Brown eyes were most common among all hair colors, <br> except blondes, for whom blue eyes were most common"
+
+HairEyeColor %>%
+  data.frame() %>%
+  group_by(Hair, Eye) %>%
+  summarize(freq = sum(Freq),
+            .groups = "keep") %>%
+  ungroup() %>%
+  group_by(Hair) %>%
+  mutate(all_hair = sum(freq),
+         Percent = round(freq/all_hair*100, 1),
+         val = case_when(Percent == max(Percent) ~ "high",
+                         TRUE ~ "fine")) %>%
+  ungroup() %>%  
   ggplot(aes(x = Hair, 
-             y = freq,
+             y = Percent,
              fill = Eye)) +
   geom_bar(position = "fill",
-           stat = "identity")
+           stat = "identity") +
+  scale_fill_viridis_d("Eye") + 
+  labs(title = title) + 
+  theme_gg_smc(plot_lines = "none", legend_loc = "top")
+
+
 ```
 
-## Formatting bar charts
-
-The steps for formatting can be applied to any of the bar charts above. 
-
-### Showing the distribution of one variable
-
-```{r add in formatting}
-eye_overall <- hair_eye_freq %>%
-  select(Eye, freq) %>%
-  group_by(Eye) %>%
-  summarize(freq_eye = sum(freq),
-            .groups = "keep") %>%
-  ungroup() 
-
-eye_overall %>%
-  ggplot(aes(x = Eye, 
-             y = freq_eye)) +
-  geom_bar(position = "dodge",
-           stat = "identity",
-           fill = "#38939b") +
-  theme_minimal() + 
-  theme(
-    panel.grid.minor = element_blank(),
-    panel.grid.major.x = element_blank(),
-    panel.grid.major.y = element_blank(),
-    axis.title = element_blank(),
-    axis.text = element_text(face = "bold"),
-    legend.title = element_text(face = "bold"),
-    axis.text.x = element_text(size = 12),
-    axis.text.y = element_blank(),
-    plot.title= element_text(face = "bold")
-  ) + 
-  geom_text(aes(x = Eye, 
-                y = freq_eye,
-                label = freq_eye),
-    vjust = -0.1, fontface = "bold", color = "black", size = 4) +
-  labs(title = "Distribution of Eye Color for all Students Surveyed")
-```
-```{r}
-### fill by frequency ----
-eye_overall %>%
-  ggplot(aes(x = Eye, 
-             y = freq_eye,
-             fill = freq_eye)) +
-  geom_bar(position = "dodge",
-           stat = "identity") + 
-  scale_fill_gradient(low = "white", high = "#006cb6")
-
-### fill with a palette ----
-eye_overall %>%
-  ggplot(aes(x = Eye, 
-             y = freq_eye,
-             fill = Eye)) +
-  geom_bar(position = "dodge",
-           stat = "identity") + 
-  scale_fill_brewer(palette = "Spectral")
-
-```
-### Manually assigning colors to each category category 
-
-```{r}
-hair_eye_freq %>% 
-  ggplot(aes(x = Hair, 
-             y = prop,
-             fill = Eye)) +
-  geom_bar(position = "dodge",
-           stat = "identity") + 
-  scale_fill_manual(values = c("Brown" = "#873600",
-                               "Blue" = "#0288D1",
-                               "Hazel" = "#CFD8DC",
-                               "Green" = "#7CB342"),
-                    name = "Eye Color") + 
-  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  theme_minimal() + 
-  theme(
-    legend.position = "bottom",
-    panel.grid.minor = element_blank(),
-    panel.grid.major.x = element_blank(),
-    panel.grid.major.y = element_line(size = 0.25, color = "gray"),
-    axis.title = element_blank(),
-    axis.text = element_text(face = "bold"),
-    legend.title = element_text(face = "bold"),
-    axis.text.x = element_text(size = 12),
-    axis.text.y = element_text(size = 10),
-    plot.title= element_text(face = "bold")
-  ) + 
-  labs(title = "Distribution of Eye Color by Hair Color") +
-  xlab("Hair Color") 
-```
-
-
-
-```{r}
-
-
-### color based on values ---- 
-hair_eye_freq %>%
-  mutate(maj = case_when(prop > 0.5 ~ "majority",
-                         TRUE ~ "minority")) %>%
-  ggplot(aes(x = Hair, 
-             y = prop,
-             group = Eye,
-             fill = maj)) +
-  geom_bar(position = "dodge",
-           stat = "identity",
-           color = "black") +
-  scale_fill_manual(values = c("majority" = "#0288D1",
-                               "minority" = "#CFD8DC")) + 
-  labs(title = "Frequency of Eye Color by Hair Color") + 
-  theme(legend.title = element_blank())
-```

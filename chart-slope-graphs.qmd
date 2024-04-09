@@ -1,0 +1,76 @@
+---
+title: "Slope Graphs"
+---
+
+## When to use slope graphs
+
+## R code
+
+Get the packages that you need:
+
+```{r setup}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	warn.conflicts = FALSE
+)
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+```
+
+Load the data. For this example, we're using a filtered and summarized version of the [California Department of Finance's P-3 file](https://dof.ca.gov/forecasting/demographics/projections/) from July, 2023.
+
+-   `year`: this is the year for the population projection
+-   `sex`: this is sex and only includes male and female categories
+-   `race_cat`: this is the single race/ethnicity value
+-   `pop_race_sex`: this is the population of the race and sex group for each year (ex: Female American Indian/Alaskan Natives in 2010)
+-   `pop_race`: this is the population of the race group for each year (ex: Male + Female American Indian/Alaskan Natives in 2010)
+-   `prop`: this is `pop_race_sex`/`pop_race`
+
+```{r}
+dof <- read.csv("data//dof_estimates_sex_race.csv")
+
+glimpse(dof)
+```
+Let's say we want to see the change in population by race/ethnicity over time. One way to do this is a line chart. This is an effective way of looking at the data. But, if the trends are relatively stable, you might just want to focus on the start and end points. 
+```{r}
+dof1 <- dof %>%
+  group_by(year, race_cat) %>%
+  summarize(pop_race_cat = sum(pop_race_sex),
+            .groups = "keep") %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(year_total = sum(pop_race_cat)) %>%
+  ungroup() %>%
+  mutate(race_prop = pop_race_cat/year_total)
+```
+
+Line chart: 
+```{r}
+ggplot(dof1) + 
+  geom_line(aes(x = year, y = race_prop, color = race_cat))
+
+````
+
+
+Slope graph: 
+```{r}
+dof1 %>%
+  filter(year %in% c(2010, 2060)) %>%
+  ggplot() + 
+  geom_line(aes(x = year, y = race_prop, color = race_cat), linewidth = 1.5)  + 
+  geom_point(aes(x = year, y = race_prop, color = race_cat), size = 4) + 
+  scale_x_continuous(limits = c(2000, 2070),
+                     breaks = c(2010, 2060)) + 
+  scale_y_continuous(labels = scales::percent) + 
+  theme_minimal() + 
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank())
+
+````

@@ -20,6 +20,7 @@ library(dplyr)
 library(ggplot2)
 library(grid)
 library(gridExtra)
+library(smcepi)
 
 # load data ----
 data(iris)
@@ -43,15 +44,7 @@ plot_vert <- iris %>%
     limits = c(4, 8),
     breaks = seq(4, 8, 2)
   ) +
-  theme_minimal() +
-  theme(
-    panel.grid.minor = element_blank(),
-    panel.grid.major.x = element_blank(),
-    panel.grid.major.y = element_line(size = 0.25, color = "gray"),
-    axis.title = element_blank(),
-    axis.text = element_text(face = "bold"),
-    axis.text.x = element_text(size = 12)
-  ) 
+  theme_gg_smc()
 plot_vert
 ```
 
@@ -87,24 +80,9 @@ plot_horiz <- iris %>%
     limits = c(4, 8),
     breaks = seq(4, 8, 2)
   ) +
-  theme_minimal() +
-  theme(
-    panel.grid.minor = element_blank(),
-    panel.grid.major.y = element_blank(),
-    panel.grid.major.x = element_line(size = 0.25, color = "gray"),
-    axis.title = element_blank(),
-    axis.text = element_text(face = "bold"),
-    axis.text.y = element_text(size = 12)
-  ) + 
-  labs(title = "Sepal Length of Iris Species")
+  labs(title = "Sepal Length of Iris Species") +
+  theme_gg_smc()
 plot_horiz
 ```
 
-You can add options to executable code like this
 
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
