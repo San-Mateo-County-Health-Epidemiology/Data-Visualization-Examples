@@ -247,9 +247,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="general-information" class="level2">
 <h2 class="anchored" data-anchor-id="general-information">General information</h2>
-<p>This code is quite similar to the code for creating a dot plot. However, when creating beeswarm plots, you should pay close attention to the the <code>position_jitter()</code> and <code>alpha</code> arguments.</p>
+<p>This code is quite similar to the code for creating a dot plot. However, when creating beeswarm plots you should pay close attention to the the <code>position_jitter()</code> and <code>alpha</code> arguments.</p>
 <p><code>position_jitter()</code>: here you can set a maximum random horizontal or vertical movement for a given point. To maintain distinction between categories, the value you put here should be less than 1/2 (a more thorough explanation for that is <a href="https://ggplot2.tidyverse.org/reference/position_jitter.html">here</a>). For a vertical chart, use horizontal jitter, ex: <code>w = 1/3</code> and for a horizontal chart, use vertical jitter, ex: <code>h = 1/3</code>.</p>
-<p><code>alpha</code>: this controls the transparency of each point. 0 is completely transparent and 1 is completely opaque. You want the points to be somewhere between 0 and 1 so you can see the density of points in the chart.</p>
+<p><code>alpha</code>: this controls the transparency of each point. 0 is completely transparent and 1 is completely opaque. You want the alpha value to be somewhere between 0 and 1 so you can see the density of points in the chart.</p>
 </section>
 <section id="vertical-beeswarm-chart" class="level2">
 <h2 class="anchored" data-anchor-id="vertical-beeswarm-chart">Vertical beeswarm chart</h2>
