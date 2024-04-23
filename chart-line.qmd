@@ -1,0 +1,115 @@
+---
+title: "Line charts"
+format: html
+editor: visual
+---
+
+# When to use line charts
+
+Line charts are the best way to visualize continuous data over time or over an ordered numerical value (like age). When using line charts, beware of including too many groups on your chart and turning it into an unreadable "spaghetti" graph. 
+
+# R code
+
+Get the packages you need
+
+```{r 	message = FALSE, warning = FALSE, warn.conflicts = FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggtext)
+library(grid)
+library(gridExtra)
+library(extrafont)
+library(smcepi)
+library(lubridate)
+```
+
+Load the data. For these charts, we'll use the 2020-2023 daily COVID-19 case counts in California. These data are from the [Statewide COVID-19 Cases Deaths Tests dataset](https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv) on the California Open Data Portal. 
+
+```{r}
+data <- readRDS("data/ca-covid.rds")
+
+flu <- readRDS("data/ca-flu.RDS")
+
+glimpse(data)
+```
+## Basic line chart
+
+To make a basic line chart, use the `geom_line()` function and pass continuous variables as the `x` and `y` variables. 
+
+```{r}
+title <- gg_color_title("COVID-19 Cases in California", "COVID-19", "#009d4e")
+
+data %>%
+  ggplot() + 
+  geom_line(aes(x = date, 
+                y = cases),
+            color = "#009d4e",
+            linewidth = 1) + 
+  scale_y_continuous(limits = c(0, 158000),
+                     label = scales::comma) + 
+  labs(title = title,
+       y = "Case Count",
+       x = "Date") +
+  theme_gg_smc(plot_lines = "horizontal")
+
+title <- gg_color_title("Flu Positives in California, 2015-2020", "Flu Positives", "#009d4e")
+
+flu %>%
+  filter(season_end >= 2015) %>% # & respiratory_virus %in% c("Total_Influenza")) %>%
+  ggplot() + 
+  geom_line(aes(x = week_end,
+                y = number_positive),
+            color = "#009d4e",
+            linewidth = 0.8) + 
+  scale_y_continuous(limits = c(0, 3100),
+                     label = scales::comma) + 
+  labs(title = title,
+       y = "Case Count",
+       x = "Date") +
+  theme_gg_smc(legend_loc = "none")
+```
+
+## Looking at multiple groups at once
+
+Sometimes, you might be able to get away with a basic line chart, but more often than not, you'll need to 
+
+```{r}
+title <- gg_color_title("COVID-19 Cases in California", "COVID-19", "#009d4e")
+
+data %>%
+  mutate(year = as.character(year(date)),
+         month_date = as.Date(paste0("2020-", month(date), "-", day(date)))) %>%
+  arrange(month_date, year) %>%
+  ggplot() + 
+  geom_line(aes(x = month_date, 
+                y = cases,
+                color = year)) + 
+  scale_y_continuous(limits = c(0, 158000),
+                     label = scales::comma) + 
+  labs(title = title,
+       y = "Case Count",
+       x = "Date") +
+  theme_gg_smc(plot_lines = "horizontal")
+
+check <- flu %>%
+  group_by(season, respiratory_virus) %>%
+  arrange(week_end) %>%
+  mutate(week_count = row_number())
+  filter(season_end >= 2015 & respiratory_virus %in% c("Total_Influenza")) %>%
+  ggplot() + 
+  geom_line(aes(x = week_end,
+                y = number_positive),
+            color = "#009d4e",
+            linewidth = 0.8) + 
+  scale_y_continuous(limits = c(0, 3100),
+                     label = scales::comma) + 
+  labs(title = title,
+       y = "Case Count",
+       x = "Date") +
+  theme_gg_smc(legend_loc = "none")
+
+```
+
+## Small multiples
+
