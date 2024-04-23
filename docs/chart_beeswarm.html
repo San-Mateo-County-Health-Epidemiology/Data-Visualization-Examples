@@ -196,6 +196,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#when-to-use-beeswarm-charts" id="toc-when-to-use-beeswarm-charts" class="nav-link active" data-scroll-target="#when-to-use-beeswarm-charts">When to use beeswarm charts</a></li>
   <li><a href="#r-code" id="toc-r-code" class="nav-link" data-scroll-target="#r-code">R code</a>
   <ul class="collapse">
+  <li><a href="#general-information" id="toc-general-information" class="nav-link" data-scroll-target="#general-information">General information</a></li>
   <li><a href="#vertical-beeswarm-chart" id="toc-vertical-beeswarm-chart" class="nav-link" data-scroll-target="#vertical-beeswarm-chart">Vertical beeswarm chart</a></li>
   <li><a href="#horizontal-beeswarm-chart" id="toc-horizontal-beeswarm-chart" class="nav-link" data-scroll-target="#horizontal-beeswarm-chart">Horizontal beeswarm chart</a></li>
   </ul></li>
@@ -224,8 +225,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="when-to-use-beeswarm-charts" class="level1">
 <h1>When to use beeswarm charts</h1>
-<p>The gist is that beeswarm or jitter (as they are sometimes called) plots are great charts when you want to compare a continuous variable across multiple categories. In my opinion, they’re better an improved version of a box plot.<br>
-This code was adapted from Stephanie Evergreen’s Code for Beeswarm Plots. <a href="https://stephanieevergreen.com/ways-to-make-more-inclusive-data-viz/">This article</a> goes over the motivation for using a beeswarm plot in detail.</p>
+<p>Beeswarm or jitter charts are excellent for comparing a continuous variable across multiple categories. Beeswarm charts are essentially dot plots where the dots are randomly moved horizontally (in a vertical beeswarm) or vertically (in a horizontal beeswarm) to more effectively show the distribution of points across a continuous variable.</p>
+<p>If you’re planning to use a box plot, consider upgrading to a beeswarm or overlaying a beeswarm on a box plot.</p>
+<p>This code was adapted from Stephanie Evergreen’s Code for Beeswarm Plots. <a href="https://stephanieevergreen.com/ways-to-make-more-inclusive-data-viz/">This article</a> goes over the motivation for using a beeswarm plot in detail.</p>
 </section>
 <section id="r-code" class="level1">
 <h1>R code</h1>
@@ -243,12 +245,15 @@ This code was adapted from Stephanie Evergreen’s Code for Beeswarm Plots. <a h
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="general-information" class="level2">
+<h2 class="anchored" data-anchor-id="general-information">General information</h2>
+<p>This code is quite similar to the code for creating a dot plot. However, when creating beeswarm plots, you should pay close attention to the the <code>position_jitter()</code> and <code>alpha</code> arguments.</p>
+<p><code>position_jitter()</code>: here you can set a maximum random horizontal or vertical movement for a given point. To maintain distinction between categories, the value you put here should be less than 1/2 (a more thorough explanation for that is <a href="https://ggplot2.tidyverse.org/reference/position_jitter.html">here</a>). For a vertical chart, use horizontal jitter, ex: <code>w = 1/3</code> and for a horizontal chart, use vertical jitter, ex: <code>h = 1/3</code>.</p>
+<p><code>alpha</code>: this controls the transparency of each point. 0 is completely transparent and 1 is completely opaque. You want the points to be somewhere between 0 and 1 so you can see the density of points in the chart.</p>
+</section>
 <section id="vertical-beeswarm-chart" class="level2">
 <h2 class="anchored" data-anchor-id="vertical-beeswarm-chart">Vertical beeswarm chart</h2>
-<p>Beeswarm plots are essentially dot plots where the dots are randomly moved horizontally (in a vertical beeswarm) or vertically (in a horizontal beeswarm) to more effectively show the distribution of points across a continuous variable.</p>
-<p>When creating beeswarm plots, you should pay close attention to the the <code>position_jitter()</code> and <code>alpha</code> arguments.</p>
-<p><code>position_jitter()</code>: here you can set a maximum random horizontal or vertical movement for a given point. To maintain distinction between categories, the value you put here should be less than 1/2 (a more thorough explanation for that is <a href="https://ggplot2.tidyverse.org/reference/position_jitter.html">here</a>). For a vertical chart, use horizontal jitter, ex: <code>w = 1/3</code> and for a horizontal chart, use vertical jitter, ex: <code>h = 1/3</code>.</p>
-<p><code>alpha</code>: this controls the transparency of each point. 0 is completely transparent and 1 is completely opaque. You want the points to be somewhere in the middle so you can more easily see the density of points in the chart.</p>
+<p>In this example, <code>x</code> is our categorical variable and <code>y</code> is our continuous variable. In <code>position_jitter()</code> <code>w = 1/4</code> which means the dots will be randomly “jittered” horizontally. Setting <code>h = 0</code> just means that all points will be at their assigned <code>y</code> value.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># vertical beeswarm ----</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">## make plot ----</span></span>
@@ -289,8 +294,8 @@ This code was adapted from Stephanie Evergreen’s Code for Beeswarm Plots. <a h
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">h =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>, <span class="at">w =</span> <span class="dv">0</span>),</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">4</span>, </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#006cb6"</span>, </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"#38939b"</span>, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">8</span>),</span>
