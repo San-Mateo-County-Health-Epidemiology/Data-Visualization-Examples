@@ -4,9 +4,9 @@ title: "Bar charts"
 
 # When to use bar charts
 
-Bar charts are great when you want to compare counts or frequencies for a categorical variable. If you have categories that have very different frequencies (ex: 1,000 in one category and 10 in another), you might want to consider changing the scale and using proportions instead of counts in a bar chart. 
+Bar charts are great when you want to compare counts or frequencies for a categorical variable. If you have categories that have very different frequencies (ex: 1,000 in one category and 10 in another), you might want to consider changing the scale and using proportions instead of counts in a bar chart.
 
-If you're looking at categories for more than one variable (ex: race by gender), consider using small multiples. If possible, avoid using a clustered or stacked bar chart. 
+If you're looking at categories for more than one variable (ex: race by gender), consider using small multiples. If possible, avoid using a clustered or stacked bar chart.
 
 # R code
 
@@ -32,9 +32,9 @@ data("HairEyeColor")
 
 ## Bar chart for one variable
 
-A bar chart is great for looking at the distribution of the categories for a single variable. Make sure to order the variables on your x-axis in a logical way - usually by value or time - and use color to strategically convey a message. 
+A bar chart is great for looking at the distribution of the categories for a single variable. Make sure to order the variables on your x-axis in a logical way - usually by value or time - and use color to strategically convey a message.
 
-Here's an example of how to use a bar chart to look at the distribution of eye color in the  `HairEyeColor` dataset from R. 
+Here's an example of how to use a bar chart to look at the distribution of eye color in the `HairEyeColor` dataset from R.
 
 ```{r}
 # save the color(s) you want to use in the title and chart
@@ -63,13 +63,14 @@ HairEyeColor %>%
   labs(title = title) +
   theme_gg_smc() 
 ```
-Note that the x-axis is sorted from largest to smallest. The order of the x-axis should either be by size or by some other characteristic (time) that is important to the data. 
+
+Note that the x-axis is sorted from largest to smallest. The order of the x-axis should either be by size or by some other characteristic (time) that is important to the data.
 
 ## Bar chart for more than 1 categorical variable
 
 Let's say you want to look at the frequency of eye color among people with different hair colors. You should use one chart per hair color or eye color, also known as small multiples!
 
-You might be tempted to use a clustered bar chart, but clustered bar charts are not conducive to comparing across categories. There might be a reason to use a 100% stacked bar chart, so we've included that code here too. 
+You might be tempted to use a clustered bar chart, but clustered bar charts are not conducive to comparing across categories. There might be a reason to use a 100% stacked bar chart, so we've included that code here too.
 
 ### Small multiples (preferred)
 
@@ -107,9 +108,10 @@ HairEyeColor %>%
   theme_gg_smc(plot_lines = "none", legend_loc = "none")
 
 ```
+
 ### 100% Stacked bar chart (if needed)
 
-If you really want to make a stacked bar chart, that can be an effective way of comparing the distribution of two categorical variables if there are not too many categories in the chart. Try to stick to 4 or fewer categories in each of your bars. Anything more than that will make comparison really difficult.  
+If you really want to make a stacked bar chart, that can be an effective way of comparing the distribution of two categorical variables if there are not too many categories in the chart. Try to stick to 4 or fewer categories in each of your bars. Anything more than that will make comparison really difficult.
 
 ```{r}
 title <- "Brown eyes were most common among all hair colors, <br> except blondes, for whom blue eyes were most common"
@@ -137,4 +139,3 @@ HairEyeColor %>%
 
 
 ```
-
