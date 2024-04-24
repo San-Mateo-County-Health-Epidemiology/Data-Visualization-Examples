@@ -56,12 +56,12 @@ data %>%
 title <- gg_color_title("Flu Positives in California, 2015-2020", "Flu Positives", "#009d4e")
 
 flu %>%
-  filter(season_end >= 2015) %>% # & respiratory_virus %in% c("Total_Influenza")) %>%
+  filter(season_end >= 2015 & respiratory_virus %in% c("Total_Influenza")) %>%
   ggplot() + 
   geom_line(aes(x = week_end,
                 y = number_positive),
             color = "#009d4e",
-            linewidth = 0.8) + 
+            linewidth = 1.2) + 
   scale_y_continuous(limits = c(0, 3100),
                      label = scales::comma) + 
   labs(title = title,
@@ -72,7 +72,7 @@ flu %>%
 
 ## Looking at multiple groups at once
 
-Sometimes, you might be able to get away with a basic line chart, but more often than not, you'll need to 
+Sometimes, you might be able to get away with a basic line chart, but more often than not, you'll want to look at multiple groups at once. If you're looking at 1-4 groups, it's fine to keep them all on the same chart. But anything past that, and you'll end up with a spaghetti chart: 
 
 ```{r}
 title <- gg_color_title("COVID-19 Cases in California", "COVID-19", "#009d4e")
@@ -92,21 +92,27 @@ data %>%
        x = "Date") +
   theme_gg_smc(plot_lines = "horizontal")
 
-check <- flu %>%
+flu %>%
   group_by(season, respiratory_virus) %>%
   arrange(week_end) %>%
-  mutate(week_count = row_number())
-  filter(season_end >= 2015 & respiratory_virus %in% c("Total_Influenza")) %>%
+  mutate(week_count = row_number(),
+         epi_week = as.numeric(epi_week)) %>%
+  ungroup() %>%
+  filter(season_end >= 2015 & respiratory_virus == "Total_Influenza" & !epi_week %in% 28:39) %>%
+  group_by(season) %>%
+  arrange(week_end) %>%
   ggplot() + 
-  geom_line(aes(x = week_end,
-                y = number_positive),
-            color = "#009d4e",
-            linewidth = 0.8) + 
-  scale_y_continuous(limits = c(0, 3100),
+  geom_line(aes(x = reorder(epi_week, week_count),
+                y = number_positive,
+                group = season,
+                color = season),
+            linewidth = 1.2) + 
+  scale_y_continuous(limits = c(0, 3400),
                      label = scales::comma) + 
+  scale_x_discrete(breaks = c(seq(40, 52, by = 4), seq(3, 39, by = 4))) + 
   labs(title = title,
-       y = "Case Count",
-       x = "Date") +
+       y = "Positives",
+       x = "Epi Week") +
   theme_gg_smc(legend_loc = "none")
 
 ```
