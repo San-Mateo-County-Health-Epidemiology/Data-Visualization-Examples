@@ -1,0 +1,233 @@
+---
+title: "Proportion Plot"
+---
+
+# When to use proportion plots
+
+Proportion plot is a type of chart developed by Stephanie Evergreen to highlight disproportionality in different populations using length and area. It is useful to show how a certain groups may be disproportionally represented for a health outcome compared to the proportion that they make up in the population.
+
+# R code
+
+Get the packages that you need:
+
+```{r 	message = FALSE, warning = FALSE, warn.conflicts = FALSE}
+library(dplyr)
+library(ggplot2)
+library(ggtext)
+library(extrafont)
+library(smcepi)
+library(kableExtra)
+library(scales)
+```
+
+Load the data. For this chart, we'll use the R dataset called `Titanic`. This data set has information on passengers on the Titanic by class, sex, age, and survival.
+
+We want to compare the distribution of passengers by class who boarded the Titanic vs. the distribution of those who survived.
+
+```{r}
+# load data
+data("Titanic")
+
+```
+
+Establish % survived by class and what % of the population each class makes up
+```{r}
+# Class distribution of passengers who boarded the Titanic
+titanic_boarded <- Titanic %>%
+  data.frame() %>% 
+  select(-Sex, -Age, -Survived) %>%
+  group_by(Class) %>%
+  mutate(n = sum(Freq)) %>%
+  select(-Freq) %>%
+  ungroup() %>%
+  distinct() %>% 
+  mutate(total = sum(n),
+         perc_pop = n/total) %>%
+  select(-n, -total)
+```
+
+```{r}
+kable(titanic_boarded)
+```
+
+```{r}
+titanic_survived <-   Titanic %>% 
+  data.frame() %>% 
+  select(-Sex, -Age) %>% 
+  group_by(Class, Survived) %>% 
+  mutate(n = sum(Freq)) %>% 
+  select(-Freq) %>% 
+  ungroup() %>% 
+  distinct() %>%
+  filter(Survived == "Yes") %>%
+  mutate(total = sum(n), 
+         perc_survived = n/total) %>% 
+  select(-Survived, -n, -total)
+```
+
+```{r}
+kable(titanic_survived)
+```
+
+Combine
+```{r}
+titanic_total <- titanic_boarded %>%
+  left_join(titanic_survived, by = "Class")
+```
+
+```{r}
+kable(titanic_total)
+```
+
+Assign start and end points for each group - this will be the heights on the left and right axis that form each section
+```{r, warning = FALSE}
+first_class_start <- titanic_total %>% filter(Class == "1st") %>% select(perc_pop) %>% pull()
+first_class_end <- titanic_total %>% filter(Class == "1st") %>% select(perc_survived) %>% pull()
+
+second_class_start <- titanic_total %>% filter(Class == "2nd") %>% select(perc_pop) %>% pull()
+second_class_end <- titanic_total %>% filter(Class == "2nd") %>% select(perc_survived) %>% pull()
+
+third_class_start <- titanic_total %>% filter(Class == "3rd") %>% select(perc_pop) %>% pull()
+third_class_end <- titanic_total %>% filter(Class == "3rd") %>% select(perc_survived) %>% pull()
+
+crew_start <- titanic_total %>% filter(Class == "Crew") %>% select(perc_pop) %>% pull()
+crew_end <- titanic_total %>% filter(Class == "Crew") %>% select(perc_survived) %>% pull()
+
+## DATA
+# Initial Data Frame (columns below):
+# - Generic curve percentages
+# - Starting value for each group
+# - Ending value for each group
+# Bottom layer will be crew, followed by 3rd class, 2nd class, 1st class
+titanic_prop_df <- data.frame(curve = c(0, 0.01, 0.03, 0.07, 0.13, 0.21, 0.31, 
+                                0.43, 0.57, 0.69, 0.79, 0.87, 0.93,
+                                0.97, 0.99, 1),
+                              crew_start, crew_end, third_class_start, third_class_end, second_class_start, second_class_end, first_class_start, first_class_end) %>%
+  mutate(crew_startC = crew_start, # Add cumulative start values
+         third_class_startC = crew_start + third_class_start,
+         second_class_startC = crew_start + third_class_start + second_class_start,
+         first_class_startC = crew_start + third_class_start + second_class_end + first_class_start,
+         
+         # Add cumulative end values
+         crew_endC = crew_end,
+         third_class_endC = crew_end + third_class_end,
+         second_class_endC = crew_end + third_class_end + second_class_end,
+         first_class_endC = crew_end + third_class_end + second_class_end + first_class_end,
+         
+         # Add height values
+         crew_height = crew_endC - crew_startC,
+         third_class_height = third_class_endC - third_class_startC,
+         second_class_height = second_class_endC - second_class_startC,
+         first_class_height = first_class_endC - first_class_startC,
+         
+         # The fancy curve y-values!
+         crew_curve = crew_startC + (curve*crew_height),
+         third_class_curve = third_class_startC + (curve*third_class_height),
+         second_class_curve = second_class_startC + (curve*second_class_height),
+         first_class_curve = 1,
+         bottom = 0,
+         x = 1:length(curve)) 
+
+# Reduce to only the columns we need
+titanic_prop_df_red <- titanic_prop_df %>% select("bottom", "crew_curve", "third_class_curve", "second_class_curve", "first_class_curve", "x")
+
+
+
+# Labels data set
+titanic_prop_labels <- data.frame(group = c("Crew", "3rd Class", "2nd Class", "1st Class"),
+                          start = c(crew_start, third_class_start, second_class_start,  first_class_start),
+                          end = c(crew_end, third_class_end, second_class_end, first_class_end),
+                          start_bottom_border = c(0, crew_start, (crew_start + third_class_start), (crew_start + third_class_start + second_class_start)),
+                          start_top_border = c(crew_start, (crew_start + third_class_start), (crew_start + third_class_start + second_class_start), 1),
+                          end_bottom_border = c(0, crew_end, (crew_end + third_class_end), (crew_end + third_class_end + second_class_end)),
+                          end_top_border = c(crew_end, (crew_end + third_class_end), (crew_end + third_class_end + second_class_end), 1)) %>%
+  mutate(start_y = start_bottom_border + 0.5*(start_top_border - start_bottom_border), # y coordinates for labels
+         end_y = end_bottom_border + 0.5*(end_top_border - end_bottom_border),
+         
+         # Label Text
+         start_labels = paste(group, percent(start), sep = "\n"),
+         end_labels = paste(group, percent(end), sep = "\n")
+)
+
+## GRAPH
+# Store line size and colors
+line_size = 5/4
+blue = "#056CB6"
+teal = "#38939B"
+orange = "#FA8D29"
+purple = "#A65A95"
+
+## Create full plot
+titanic_prop_plot <- ggplot(titanic_prop_df_red) + 
+  # Curved areas, graphed on top of each other 
+  geom_area(aes(x = x, y = first_class_curve), fill = purple) +
+  geom_area(aes(x = x, y = second_class_curve), fill = orange) +
+  geom_area(aes(x = x, y = third_class_curve), fill = teal) +
+  geom_area(aes(x = x, y = crew_curve), fill = blue) +
+  # Lines around curved areas (including top and bottom)
+  geom_line(aes(x = x, y = first_class_curve), linewidth = line_size) +
+  geom_line(aes(x = x, y = second_class_curve), linewidth = line_size) +
+  geom_line(aes(x = x, y = third_class_curve), linewidth = line_size) +
+  geom_line(aes(x = x, y = crew_curve), linewidth = line_size) +
+  geom_line(aes(x = x, y = bottom), linewidth = line_size) +
+  
+  # Line segments extending past the left side of the graph
+  # (use cumulative start values for the y-coordinates)
+  geom_segment(aes(x = -2, xend = 1, y = 0, yend = 0), 
+               linewidth = line_size) +
+  geom_segment(aes(x = -2, xend = 1, y = crew_start, yend = crew_start), 
+               linewidth = line_size) +
+  geom_segment(aes(x = -2, xend = 1, y = crew_start + third_class_start, yend = crew_start + third_class_start), 
+               linewidth = line_size) +
+  geom_segment(aes(x = -2, xend = 1, y = crew_start + third_class_start + second_class_start, yend = crew_start + third_class_start + second_class_start), 
+               linewidth = line_size) +
+  geom_segment(aes(x = -2, xend = 1, y = 1, yend = 1), 
+               linewidth = line_size) +
+  # Line segments extending past the right side of the graph
+  # (use cumulative end values for the y-coordinates)
+  geom_segment(aes(x = 16, xend = 19, y = 0, yend = 0), 
+               linewidth = line_size) +
+  geom_segment(aes(x = 16, xend = 19, y = crew_end, yend = crew_end), 
+               linewidth = line_size) +
+  geom_segment(aes(x = 16, xend = 19, y = crew_end + third_class_end, yend = crew_end + third_class_end), 
+               linewidth = line_size) +
+  geom_segment(aes(x = 16, xend = 19, y = crew_end + third_class_end + second_class_end, yend = crew_end + third_class_end + second_class_end), 
+               linewidth = line_size) +
+  geom_segment(aes(x = 16, xend = 19, y = 1, yend = 1), 
+               linewidth = line_size) +
+  # Allow a tiny bit of padding at the ends of each axis 
+  scale_x_continuous(expand = c(0, 0), limits = c(-2, 19)) +
+  scale_y_continuous(expand = c(0.01, 0), limits = c(0, 1.15)) +
+  # Remove everything other than the shapes (lines and areas)
+  theme_void() + 
+  # Group labels on left and right sides of graph
+  geom_text(data = titanic_prop_labels,
+            aes(x = -0.5, y = start_y, label = start_labels),
+            size = 3, #fontface = "bold",
+            lineheight = 0.9,
+            hjust = 0.5, vjust = 0.5) + 
+  geom_text(data = titanic_prop_labels,
+            aes(x = 17.5, y = end_y, label = end_labels),
+            size = 3, #fontface = "bold",
+            lineheight = 0.9,
+            hjust = 0.5, vjust = 0.5) +
+  # Text labels above left and right sides of graph
+  annotate(geom = "text", x = -0.25, y = 1, 
+           label = "Share of \npassengers", 
+           size = 3, fontface = "bold",
+           lineheight = 0.9,
+           vjust = -0.25, hjust = 0.5) + 
+  annotate(geom = "text", x = 17.25, y = 1, 
+           label = "Share of \nsurvivors", 
+           size = 3, fontface = "bold",
+           lineheight = 0.9,
+           vjust = -0.25, hjust = 0.5) +
+  # Graph title
+  labs(title = stringr::str_wrap(string = "First and second class passengers on the Titanic disporportionally represented among survivors.", width = 85)) +  
+  theme(plot.title = element_text(size = 12),
+        plot.title.position = "panel",
+        plot.margin = margin(t = 3, l = 0, r = 0, unit = "lines"))
+
+# Check plot
+titanic_prop_plot
+```
