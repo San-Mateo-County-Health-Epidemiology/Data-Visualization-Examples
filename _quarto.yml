@@ -17,6 +17,7 @@ website:
         contents: 
         - chart_bar.qmd
         - chart_beeswarm.qmd
+        - chart_slope-graphs.qmd
         - chart_small-multiples.qmd
         - chart_tile.qmd
 

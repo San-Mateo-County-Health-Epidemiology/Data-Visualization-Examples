@@ -43,39 +43,51 @@
     ]
   },
   {
-    "objectID": "chart_bar.html",
-    "href": "chart_bar.html",
-    "title": "Bar charts",
+    "objectID": "chart_beeswarm.html",
+    "href": "chart_beeswarm.html",
+    "title": "Beeswarm charts",
     "section": "",
-    "text": "Bar charts are great when you want to compare counts or frequencies for a categorical variable. If you have categories that have very different frequencies (ex: 1,000 in one category and 10 in another), you might want to consider changing the scale and using proportions instead of counts in a bar chart.\nIf you’re looking at categories for more than one variable (ex: race by gender), consider using small multiples. If possible, avoid using a clustered or stacked bar chart.",
+    "text": "Beeswarm or jitter charts are excellent for comparing a continuous variable across multiple categories. Beeswarm charts are essentially dot plots where the dots are randomly moved horizontally (in a vertical beeswarm) or vertically (in a horizontal beeswarm) to more effectively show the distribution of points across a continuous variable.\nIf you’re planning to use a box plot, consider upgrading to a beeswarm or overlaying a beeswarm on a box plot.\nThis code was adapted from Stephanie Evergreen’s Code for Beeswarm Plots. This article goes over the motivation for using a beeswarm plot in detail.",
     "crumbs": [
       "Home",
       "Charts",
-      "Bar charts"
+      "Beeswarm charts"
     ]
   },
   {
-    "objectID": "chart_bar.html#bar-chart-for-one-variable",
-    "href": "chart_bar.html#bar-chart-for-one-variable",
-    "title": "Bar charts",
-    "section": "Bar chart for one variable",
-    "text": "Bar chart for one variable\nA bar chart is great for looking at the distribution of the categories for a single variable. Make sure to order the variables on your x-axis in a logical way - usually by value or time - and use color to strategically convey a message.\nHere’s an example of how to use a bar chart to look at the distribution of eye color in the HairEyeColor dataset from R.\n\n# save the color(s) you want to use in the title and chart\nbrown_color &lt;- \"#873600\"\n\n# create the title\ntitle &lt;- gg_color_title(\"Brown eyes are most common\",\n                       c(\"Brown\"), c(brown_color))\n\n# create the plot\nHairEyeColor %&gt;%\n  data.frame() %&gt;%\n  group_by(Eye) %&gt;%\n  summarize(freq = sum(Freq),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;% \n  ggplot(aes(x = Eye, \n             y = freq,\n             fill = Eye)) +\n  scale_fill_manual(values = c(\"Brown\" = brown_color,\n                               \"Blue\" = \"#D5D8DC\",\n                               \"Hazel\" = \"#D5D8DC\",\n                               \"Green\" = \"#D5D8DC\")) + \n  geom_bar(position = \"dodge\",\n           stat = \"identity\") +\n  labs(title = title) +\n  theme_gg_smc() \n\n\n\n\n\n\n\n\nNote that the x-axis is sorted from largest to smallest. The order of the x-axis should either be by size or by some other characteristic (time) that is important to the data.",
+    "objectID": "chart_beeswarm.html#general-information",
+    "href": "chart_beeswarm.html#general-information",
+    "title": "Beeswarm charts",
+    "section": "General information",
+    "text": "General information\nThis code is quite similar to the code for creating a dot plot. However, when creating beeswarm plots you should pay close attention to the the position_jitter() and alpha arguments.\nposition_jitter(): here you can set a maximum random horizontal or vertical movement for a given point. To maintain distinction between categories, the value you put here should be less than 1/2 (a more thorough explanation for that is here). For a vertical chart, use horizontal jitter, ex: w = 1/3 and for a horizontal chart, use vertical jitter, ex: h = 1/3.\nalpha: this controls the transparency of each point. 0 is completely transparent and 1 is completely opaque. You want the alpha value to be somewhere between 0 and 1 so you can see the density of points in the chart.",
     "crumbs": [
       "Home",
       "Charts",
-      "Bar charts"
+      "Beeswarm charts"
     ]
   },
   {
-    "objectID": "chart_bar.html#bar-chart-for-more-than-1-categorical-variable",
-    "href": "chart_bar.html#bar-chart-for-more-than-1-categorical-variable",
-    "title": "Bar charts",
-    "section": "Bar chart for more than 1 categorical variable",
-    "text": "Bar chart for more than 1 categorical variable\nLet’s say you want to look at the frequency of eye color among people with different hair colors. You should use one chart per hair color or eye color, also known as small multiples!\nYou might be tempted to use a clustered bar chart, but clustered bar charts are not conducive to comparing across categories. There might be a reason to use a 100% stacked bar chart, so we’ve included that code here too.\n\nSmall multiples (preferred)\nSmall multiples are a great way to compare the distribution of a categorical variable across the categories of another variable. facet_wrap() from the ggplot2 package makes it really easy to create small multiples.\n\ntitle &lt;- \"Brown eyes were most common among all hair colors, &lt;br&gt; except among blondes, for whom blue eyes were most common\"\n\nHairEyeColor %&gt;%\n  data.frame() %&gt;%\n  group_by(Hair, Eye) %&gt;%\n  summarize(freq = sum(Freq),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;%\n  group_by(Hair) %&gt;%\n  mutate(all_hair = sum(freq),\n         Percent = round(freq/all_hair, 2),\n         val = case_when(Percent == max(Percent) ~ \"high\",\n                         TRUE ~ \"fine\")) %&gt;%\n  ungroup() %&gt;%  \n  ggplot(aes(x = Percent, \n             y = Eye,\n             fill = val)) +\n  geom_bar(position = \"dodge\",\n           stat = \"identity\") + \n  scale_fill_manual(values = c(\"high\" = \"#006cb6\",\n                               \"fine\" = \"#D5D8DC\")) +\n  facet_wrap(~Hair,\n             nrow = 1,\n             ncol = 4) + \n  labs(title = title) + \n  scale_x_continuous(labels = scales::percent) + \n  theme_gg_smc(plot_lines = \"none\", legend_loc = \"none\")\n\n\n\n\n\n\n\n\n\n\n100% Stacked bar chart (if needed)\nIf you really want to make a stacked bar chart, that can be an effective way of comparing the distribution of two categorical variables if there are not too many categories in the chart. Try to stick to 4 or fewer categories in each of your bars. Anything more than that will make comparison really difficult.\n\ntitle &lt;- \"Brown eyes were most common among all hair colors, &lt;br&gt; except blondes, for whom blue eyes were most common\"\n\nHairEyeColor %&gt;%\n  data.frame() %&gt;%\n  group_by(Hair, Eye) %&gt;%\n  summarize(freq = sum(Freq),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;%\n  group_by(Hair) %&gt;%\n  mutate(all_hair = sum(freq),\n         Percent = round(freq/all_hair*100, 1),\n         val = case_when(Percent == max(Percent) ~ \"high\",\n                         TRUE ~ \"fine\")) %&gt;%\n  ungroup() %&gt;%  \n  ggplot(aes(x = Hair, \n             y = Percent,\n             fill = Eye)) +\n  geom_bar(position = \"fill\",\n           stat = \"identity\") +\n  scale_fill_viridis_d(\"Eye\") + \n  labs(title = title) + \n  theme_gg_smc(plot_lines = \"none\", legend_loc = \"top\")",
+    "objectID": "chart_beeswarm.html#vertical-beeswarm-chart",
+    "href": "chart_beeswarm.html#vertical-beeswarm-chart",
+    "title": "Beeswarm charts",
+    "section": "Vertical beeswarm chart",
+    "text": "Vertical beeswarm chart\nIn this example, x is our categorical variable and y is our continuous variable. In position_jitter() w = 1/4 which means the dots will be randomly “jittered” horizontally. Setting h = 0 just means that all points will be at their assigned y value.\n\n# vertical beeswarm ----\n## make plot ----\ntitle &lt;- \"Sepal Lengths of Iris Species\"\n\niris %&gt;% \n  ggplot(aes(x = Species, \n             y = Sepal.Length)) +\n  geom_point(\n    position = position_jitter(w = 1/4, h = 0),\n    size = 4, \n    color = \"#006cb6\", \n    alpha = 0.4\n  ) +\n  scale_y_continuous(\n    limits = c(0, 8),\n    breaks = seq(0, 8, 2)\n  ) +\n  labs(title = title) +\n  theme_gg_smc()",
     "crumbs": [
       "Home",
       "Charts",
-      "Bar charts"
+      "Beeswarm charts"
+    ]
+  },
+  {
+    "objectID": "chart_beeswarm.html#horizontal-beeswarm-chart",
+    "href": "chart_beeswarm.html#horizontal-beeswarm-chart",
+    "title": "Beeswarm charts",
+    "section": "Horizontal beeswarm chart",
+    "text": "Horizontal beeswarm chart\nYou might prefer to have the continuous variable on the x-axis. If so, you can easily change the code above. You just need to:\n\nswap the x and y variables in ggplot()\nswap the h and w arguments in position_jitter()\nuse scale_x_continuous instead of scale_y_continuous\n\n\niris %&gt;% \n  ggplot(aes(x = Sepal.Length, \n             y = Species)) +\n  geom_point(\n    position = position_jitter(h = 1/5, w = 0),\n    size = 4, \n    color = \"#38939b\", \n    alpha = 1/2\n  ) +\n  scale_x_continuous(\n    limits = c(0, 8),\n    breaks = seq(0, 8, 2)\n  ) +\n  labs(title = \"Sepal Length of Iris Species\") +\n  theme_gg_smc(plot_lines = \"vertical\")",
+    "crumbs": [
+      "Home",
+      "Charts",
+      "Beeswarm charts"
     ]
   },
   {
@@ -128,58 +140,75 @@
     "text": "The steps for formatting can be applied to any of the bar charts above.\n\n\n\nlibrary(ggplot2)\nlibrary(smcepi)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ lubridate 1.9.3     ✔ tibble    3.2.1\n✔ purrr     1.0.2     ✔ tidyr     1.3.1\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n# load data\ndata(\"HairEyeColor\")\n\n# reshape the data\nhair_eye_freq &lt;- HairEyeColor %&gt;%\n  data.frame() %&gt;%\n  group_by(Hair, Eye) %&gt;%\n  summarize(freq = sum(Freq),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;%\n  group_by(Hair) %&gt;%\n  mutate(total = sum(freq),\n         prop = freq/total) %&gt;%\n  ungroup()\n\neye_overall &lt;- hair_eye_freq %&gt;%\n  select(Eye, freq) %&gt;%\n  group_by(Eye) %&gt;%\n  summarize(freq_eye = sum(freq),\n            .groups = \"keep\") %&gt;%\n  ungroup()\n\neye_overall %&gt;%\n  ggplot(aes(x = Eye, \n             y = freq_eye)) +\n  geom_bar(position = \"dodge\",\n           stat = \"identity\",\n           fill = \"#38939b\") +\n  geom_text(aes(x = Eye, \n                y = freq_eye,\n                label = freq_eye),\n    vjust = -0.1, fontface = \"bold\", color = \"black\", size = 4) +\n  labs(title = \"Distribution of Eye Color for all Students Surveyed\") +\n  theme_gg_smc()\n\n\n\n\n\n\n\n\n\n### fill by frequency ----\neye_overall %&gt;%\n  ggplot(aes(x = Eye, \n             y = freq_eye,\n             fill = freq_eye)) +\n  geom_bar(position = \"dodge\",\n           stat = \"identity\") + \n  scale_fill_gradient(low = \"white\", high = \"#006cb6\") + \n  theme_gg_smc()\n\n\n\n\n\n\n\n### fill with a palette ----\neye_overall %&gt;%\n  ggplot(aes(x = Eye, \n             y = freq_eye,\n             fill = Eye)) +\n  geom_bar(position = \"dodge\",\n           stat = \"identity\") + \n  scale_fill_brewer(palette = \"Spectral\") + \n  theme_gg_smc()\n\n\n\n\n\n\n\n\n\n\n\n\nhair_eye_freq %&gt;% \n  ggplot(aes(x = Hair, \n             y = freq,\n             fill = Eye)) +\n  geom_bar(position = \"dodge\",\n           stat = \"identity\") + \n  scale_fill_manual(values = c(\"Brown\" = \"#873600\",\n                               \"Blue\" = \"#0288D1\",\n                               \"Hazel\" = \"#CFD8DC\",\n                               \"Green\" = \"#7CB342\"),\n                    name = \"Eye Color\") + \n  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +\n  labs(title = \"Distribution of Eye Color by Hair Color\") +\n  xlab(\"Hair Color\") +\n  theme_gg_smc()\n\n\n\n\n\n\n\n\n\n### color based on values ---- \nhair_eye_freq %&gt;%\n    group_by(Hair) %&gt;%\n  mutate(total = sum(freq),\n         prop = freq/total) %&gt;%\n  ungroup() %&gt;%\n  mutate(maj = case_when(prop &gt; 0.5 ~ \"majority\",\n                         TRUE ~ \"minority\")) %&gt;%\n  ggplot(aes(x = Hair, \n             y = freq,\n             group = Eye,\n             fill = maj)) +\n  geom_bar(position = \"dodge\",\n           stat = \"identity\",\n           color = \"black\") +\n  scale_fill_manual(values = c(\"majority\" = \"#0288D1\",\n                               \"minority\" = \"#CFD8DC\")) + \n  labs(title = \"Frequency of Eye Color by Hair Color\") + \n  theme_gg_smc()"
   },
   {
-    "objectID": "chart-slope-graphs.html#r-code",
-    "href": "chart-slope-graphs.html#r-code",
-    "title": "Slope Graphs",
-    "section": "R code",
-    "text": "R code\nGet the packages that you need:\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(grid)\nlibrary(gridExtra)\nlibrary(smcepi)\n\nLoad the data. For this example, we’re using a filtered and summarized version of the California Department of Finance’s P-3 file from July, 2023.\n\nyear: this is the year for the population projection\nsex: this is sex and only includes male and female categories\nrace_cat: this is the single race/ethnicity value\npop_race_sex: this is the population of the race and sex group for each year (ex: Female American Indian/Alaskan Natives in 2010)\npop_race: this is the population of the race group for each year (ex: Male + Female American Indian/Alaskan Natives in 2010)\nprop: this is pop_race_sex/pop_race\n\n\ndof &lt;- read.csv(\"data//dof_estimates_sex_race.csv\")\n\nglimpse(dof)\n\nRows: 714\nColumns: 6\n$ year         &lt;int&gt; 2010, 2010, 2010, 2010, 2010, 2010, 2010, 2010, 2010, 201…\n$ sex          &lt;chr&gt; \"Female\", \"Female\", \"Female\", \"Female\", \"Female\", \"Female…\n$ race_cat     &lt;chr&gt; \"American Indian/Alaskan Native\", \"Asian\", \"Black\", \"Lati…\n$ pop_race_sex &lt;int&gt; 611, 94834, 9363, 90331, 11344, 5318, 154812, 565, 83512,…\n$ pop_race     &lt;int&gt; 1176, 178346, 19077, 183140, 22641, 10262, 306712, 1176, …\n$ prop         &lt;dbl&gt; 0.51956, 0.53174, 0.49080, 0.49323, 0.50104, 0.51822, 0.5…\n\n\nLet’s say we want to see the change in population by race/ethnicity in San Mateo County over time. One way to do this is a line chart. This is an effective way of looking at the data. But, if the trends are relatively stable, you might just want to focus on the start and end points.\n\ndof1 &lt;- dof %&gt;%\n  group_by(year, race_cat) %&gt;%\n  summarize(pop_race_cat = sum(pop_race_sex),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;%\n  group_by(year) %&gt;%\n  mutate(year_total = sum(pop_race_cat)) %&gt;%\n  ungroup() %&gt;%\n  mutate(race_prop = pop_race_cat/year_total)\n\nLine chart:\n\nggplot(dof1) + \n  geom_line(aes(x = year, y = race_prop, color = race_cat), linewidth = 1.5) + \n  see::scale_color_okabeito() + \n  theme_gg_smc(legend_loc = \"right\") + \n  labs(title = \"Percentage of population by race/ethnicity\",\n       subtitle = \"2020-2060\",\n       x = \"Year\",\n       y = \"\")\n\n\n\n\n\n\n\n\nIf the goal of the visualization is to look at every year from 2020-2060, then a line graph is the way to go. If instead we really want to see the projected change from 2020 to 2060, we should use a slope chart.\nSlope chart:\n\ndof1 %&gt;%\n  filter(year %in% c(2010, 2060)) %&gt;%\n  ggplot() + \n  geom_line(aes(x = year, y = race_prop, color = race_cat), linewidth = 1.5)  + \n  geom_point(aes(x = year, y = race_prop, color = race_cat), size = 4) + \n  scale_x_continuous(limits = c(2000, 2070),\n                     breaks = c(2010, 2060)) + \n  scale_y_continuous(labels = scales::percent) + \n  see::scale_color_okabeito() + \n  theme_gg_smc(legend_loc = \"right\") + \n  labs(title = \"Percentage of population by race/ethnicity\",\n       subtitle = \"2020 to 2060\",\n       x = \"Year\",\n       y = \"\")"
-  },
-  {
-    "objectID": "chart_beeswarm.html",
-    "href": "chart_beeswarm.html",
-    "title": "Beeswarm charts",
+    "objectID": "chart_bar.html",
+    "href": "chart_bar.html",
+    "title": "Bar charts",
     "section": "",
-    "text": "Beeswarm or jitter charts are excellent for comparing a continuous variable across multiple categories. Beeswarm charts are essentially dot plots where the dots are randomly moved horizontally (in a vertical beeswarm) or vertically (in a horizontal beeswarm) to more effectively show the distribution of points across a continuous variable.\nIf you’re planning to use a box plot, consider upgrading to a beeswarm or overlaying a beeswarm on a box plot.\nThis code was adapted from Stephanie Evergreen’s Code for Beeswarm Plots. This article goes over the motivation for using a beeswarm plot in detail.",
+    "text": "Bar charts are great when you want to compare counts or frequencies for a categorical variable. If you have categories that have very different frequencies (ex: 1,000 in one category and 10 in another), you might want to consider changing the scale and using proportions instead of counts in a bar chart.\nIf you’re looking at categories for more than one variable (ex: race by gender), consider using small multiples. If possible, avoid using a clustered or stacked bar chart.",
     "crumbs": [
       "Home",
       "Charts",
-      "Beeswarm charts"
+      "Bar charts"
     ]
   },
   {
-    "objectID": "chart_beeswarm.html#general-information",
-    "href": "chart_beeswarm.html#general-information",
-    "title": "Beeswarm charts",
-    "section": "General information",
-    "text": "General information\nThis code is quite similar to the code for creating a dot plot. However, when creating beeswarm plots you should pay close attention to the the position_jitter() and alpha arguments.\nposition_jitter(): here you can set a maximum random horizontal or vertical movement for a given point. To maintain distinction between categories, the value you put here should be less than 1/2 (a more thorough explanation for that is here). For a vertical chart, use horizontal jitter, ex: w = 1/3 and for a horizontal chart, use vertical jitter, ex: h = 1/3.\nalpha: this controls the transparency of each point. 0 is completely transparent and 1 is completely opaque. You want the alpha value to be somewhere between 0 and 1 so you can see the density of points in the chart.",
+    "objectID": "chart_bar.html#bar-chart-for-one-variable",
+    "href": "chart_bar.html#bar-chart-for-one-variable",
+    "title": "Bar charts",
+    "section": "Bar chart for one variable",
+    "text": "Bar chart for one variable\nA bar chart is great for looking at the distribution of the categories for a single variable. Make sure to order the variables on your x-axis in a logical way - usually by value or time - and use color to strategically convey a message.\nHere’s an example of how to use a bar chart to look at the distribution of eye color in the HairEyeColor dataset from R.\n\n# save the color(s) you want to use in the title and chart\nbrown_color &lt;- \"#873600\"\n\n# create the title\ntitle &lt;- gg_color_title(\"Brown eyes are most common\",\n                       c(\"Brown\"), c(brown_color))\n\n# create the plot\nHairEyeColor %&gt;%\n  data.frame() %&gt;%\n  group_by(Eye) %&gt;%\n  summarize(freq = sum(Freq),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;% \n  ggplot(aes(x = Eye, \n             y = freq,\n             fill = Eye)) +\n  scale_fill_manual(values = c(\"Brown\" = brown_color,\n                               \"Blue\" = \"#D5D8DC\",\n                               \"Hazel\" = \"#D5D8DC\",\n                               \"Green\" = \"#D5D8DC\")) + \n  geom_bar(position = \"dodge\",\n           stat = \"identity\") +\n  labs(title = title) +\n  theme_gg_smc() \n\n\n\n\n\n\n\n\nNote that the x-axis is sorted from largest to smallest. The order of the x-axis should either be by size or by some other characteristic (time) that is important to the data.",
     "crumbs": [
       "Home",
       "Charts",
-      "Beeswarm charts"
+      "Bar charts"
     ]
   },
   {
-    "objectID": "chart_beeswarm.html#vertical-beeswarm-chart",
-    "href": "chart_beeswarm.html#vertical-beeswarm-chart",
-    "title": "Beeswarm charts",
-    "section": "Vertical beeswarm chart",
-    "text": "Vertical beeswarm chart\nIn this example, x is our categorical variable and y is our continuous variable. In position_jitter() w = 1/4 which means the dots will be randomly “jittered” horizontally. Setting h = 0 just means that all points will be at their assigned y value.\n\n# vertical beeswarm ----\n## make plot ----\ntitle &lt;- \"Sepal Lengths of Iris Species\"\n\niris %&gt;% \n  ggplot(aes(x = Species, \n             y = Sepal.Length)) +\n  geom_point(\n    position = position_jitter(w = 1/4, h = 0),\n    size = 4, \n    color = \"#006cb6\", \n    alpha = 0.4\n  ) +\n  scale_y_continuous(\n    limits = c(0, 8),\n    breaks = seq(0, 8, 2)\n  ) +\n  labs(title = title) +\n  theme_gg_smc()",
+    "objectID": "chart_bar.html#bar-chart-for-more-than-1-categorical-variable",
+    "href": "chart_bar.html#bar-chart-for-more-than-1-categorical-variable",
+    "title": "Bar charts",
+    "section": "Bar chart for more than 1 categorical variable",
+    "text": "Bar chart for more than 1 categorical variable\nLet’s say you want to look at the frequency of eye color among people with different hair colors. You should use one chart per hair color or eye color, also known as small multiples!\nYou might be tempted to use a clustered bar chart, but clustered bar charts are not conducive to comparing across categories. There might be a reason to use a 100% stacked bar chart, so we’ve included that code here too.\n\nSmall multiples (preferred)\nSmall multiples are a great way to compare the distribution of a categorical variable across the categories of another variable. facet_wrap() from the ggplot2 package makes it really easy to create small multiples.\n\ntitle &lt;- \"Brown eyes were most common among all hair colors, &lt;br&gt; except among blondes, for whom blue eyes were most common\"\n\nHairEyeColor %&gt;%\n  data.frame() %&gt;%\n  group_by(Hair, Eye) %&gt;%\n  summarize(freq = sum(Freq),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;%\n  group_by(Hair) %&gt;%\n  mutate(all_hair = sum(freq),\n         Percent = round(freq/all_hair, 2),\n         val = case_when(Percent == max(Percent) ~ \"high\",\n                         TRUE ~ \"fine\")) %&gt;%\n  ungroup() %&gt;%  \n  ggplot(aes(x = Percent, \n             y = Eye,\n             fill = val)) +\n  geom_bar(position = \"dodge\",\n           stat = \"identity\") + \n  scale_fill_manual(values = c(\"high\" = \"#006cb6\",\n                               \"fine\" = \"#D5D8DC\")) +\n  facet_wrap(~Hair,\n             nrow = 1,\n             ncol = 4) + \n  labs(title = title) + \n  scale_x_continuous(labels = scales::percent) + \n  theme_gg_smc(plot_lines = \"none\", legend_loc = \"none\")\n\n\n\n\n\n\n\n\n\n\n100% Stacked bar chart (if needed)\nIf you really want to make a stacked bar chart, that can be an effective way of comparing the distribution of two categorical variables if there are not too many categories in the chart. Try to stick to 4 or fewer categories in each of your bars. Anything more than that will make comparison really difficult.\n\ntitle &lt;- \"Brown eyes were most common among all hair colors, &lt;br&gt; except blondes, for whom blue eyes were most common\"\n\nHairEyeColor %&gt;%\n  data.frame() %&gt;%\n  group_by(Hair, Eye) %&gt;%\n  summarize(freq = sum(Freq),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;%\n  group_by(Hair) %&gt;%\n  mutate(all_hair = sum(freq),\n         Percent = round(freq/all_hair*100, 1),\n         val = case_when(Percent == max(Percent) ~ \"high\",\n                         TRUE ~ \"fine\")) %&gt;%\n  ungroup() %&gt;%  \n  ggplot(aes(x = Hair, \n             y = Percent,\n             fill = Eye)) +\n  geom_bar(position = \"fill\",\n           stat = \"identity\") +\n  scale_fill_viridis_d(\"Eye\") + \n  labs(title = title) + \n  theme_gg_smc(plot_lines = \"none\", legend_loc = \"top\")",
     "crumbs": [
       "Home",
       "Charts",
-      "Beeswarm charts"
+      "Bar charts"
     ]
   },
   {
-    "objectID": "chart_beeswarm.html#horizontal-beeswarm-chart",
-    "href": "chart_beeswarm.html#horizontal-beeswarm-chart",
-    "title": "Beeswarm charts",
-    "section": "Horizontal beeswarm chart",
-    "text": "Horizontal beeswarm chart\nYou might prefer to have the continuous variable on the x-axis. If so, you can easily change the code above. You just need to:\n\nswap the x and y variables in ggplot()\nswap the h and w arguments in position_jitter()\nuse scale_x_continuous instead of scale_y_continuous\n\n\niris %&gt;% \n  ggplot(aes(x = Sepal.Length, \n             y = Species)) +\n  geom_point(\n    position = position_jitter(h = 1/5, w = 0),\n    size = 4, \n    color = \"#38939b\", \n    alpha = 1/2\n  ) +\n  scale_x_continuous(\n    limits = c(0, 8),\n    breaks = seq(0, 8, 2)\n  ) +\n  labs(title = \"Sepal Length of Iris Species\") +\n  theme_gg_smc(plot_lines = \"vertical\")",
+    "objectID": "chart_slope-graphs.html",
+    "href": "chart_slope-graphs.html",
+    "title": "Slope charts",
+    "section": "",
+    "text": "Slope charts are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups.",
     "crumbs": [
       "Home",
       "Charts",
-      "Beeswarm charts"
+      "Slope charts"
+    ]
+  },
+  {
+    "objectID": "chart_slope-graphs.html#when-to-use-slope-charts",
+    "href": "chart_slope-graphs.html#when-to-use-slope-charts",
+    "title": "Slope charts",
+    "section": "",
+    "text": "Slope charts are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups.",
+    "crumbs": [
+      "Home",
+      "Charts",
+      "Slope charts"
+    ]
+  },
+  {
+    "objectID": "chart_slope-graphs.html#r-code",
+    "href": "chart_slope-graphs.html#r-code",
+    "title": "Slope charts",
+    "section": "R code",
+    "text": "R code\nGet the packages that you need:\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(grid)\nlibrary(gridExtra)\nlibrary(smcepi)\n\nLoad the data. For this example, we’re using a filtered and summarized version of the California Department of Finance’s P-3 file from July, 2023.\n\nyear: this is the year for the population projection\nsex: this is sex and only includes male and female categories\nrace_cat: this is the single race/ethnicity value\npop_race_sex: this is the population of the race and sex group for each year (ex: Female American Indian/Alaskan Natives in 2010)\npop_race: this is the population of the race group for each year (ex: Male + Female American Indian/Alaskan Natives in 2010)\nprop: this is pop_race_sex/pop_race\n\n\ndof &lt;- read.csv(\"data//dof_estimates_sex_race.csv\")\n\nglimpse(dof)\n\nRows: 714\nColumns: 6\n$ year         &lt;int&gt; 2010, 2010, 2010, 2010, 2010, 2010, 2010, 2010, 2010, 201…\n$ sex          &lt;chr&gt; \"Female\", \"Female\", \"Female\", \"Female\", \"Female\", \"Female…\n$ race_cat     &lt;chr&gt; \"American Indian/Alaskan Native\", \"Asian\", \"Black\", \"Lati…\n$ pop_race_sex &lt;int&gt; 611, 94834, 9363, 90331, 11344, 5318, 154812, 565, 83512,…\n$ pop_race     &lt;int&gt; 1176, 178346, 19077, 183140, 22641, 10262, 306712, 1176, …\n$ prop         &lt;dbl&gt; 0.51956, 0.53174, 0.49080, 0.49323, 0.50104, 0.51822, 0.5…\n\n\nLet’s say we want to see the change in population by race/ethnicity in San Mateo County over time. One way to do this is a line chart. This is an effective way of looking at the data. But, if the trends are relatively stable, you might just want to focus on the start and end points.\n\ndof1 &lt;- dof %&gt;%\n  group_by(year, race_cat) %&gt;%\n  summarize(pop_race_cat = sum(pop_race_sex),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;%\n  group_by(year) %&gt;%\n  mutate(year_total = sum(pop_race_cat)) %&gt;%\n  ungroup() %&gt;%\n  mutate(race_prop = pop_race_cat/year_total)\n\nLine chart:\n\nggplot(dof1) + \n  geom_line(aes(x = year, y = race_prop, color = race_cat), linewidth = 1.5) + \n  see::scale_color_okabeito() + \n  theme_gg_smc(legend_loc = \"right\") + \n  labs(title = \"Percentage of population by race/ethnicity\",\n       subtitle = \"2020-2060\",\n       x = \"Year\",\n       y = \"\")\n\n\n\n\n\n\n\n\nIf the goal of the visualization is to look at every year from 2020-2060, then a line graph is the way to go. If instead we really want to see the projected change from 2020 to 2060, we should use a slope chart.\nSlope chart:\n\ndof1 %&gt;%\n  filter(year %in% c(2010, 2060)) %&gt;%\n  ggplot() + \n  geom_line(aes(x = year, y = race_prop, color = race_cat), linewidth = 1.5)  + \n  geom_point(aes(x = year, y = race_prop, color = race_cat), size = 4) + \n  scale_x_continuous(limits = c(2000, 2070),\n                     breaks = c(2010, 2060)) + \n  scale_y_continuous(labels = scales::percent) + \n  see::scale_color_okabeito() + \n  theme_gg_smc(legend_loc = \"right\") + \n  labs(title = \"Percentage of population by race/ethnicity\",\n       subtitle = \"2020 to 2060\",\n       x = \"Year\",\n       y = \"\")",
+    "crumbs": [
+      "Home",
+      "Charts",
+      "Slope charts"
     ]
   },
   {
@@ -193,47 +222,5 @@
       "Charts",
       "Tile charts"
     ]
-  },
-  {
-    "objectID": "chart-slope-graphs.html",
-    "href": "chart-slope-graphs.html",
-    "title": "Slope Graphs",
-    "section": "",
-    "text": "Slope graphs are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups."
-  },
-  {
-    "objectID": "chart-slope-graphs.html#when-to-use-slope-graphs",
-    "href": "chart-slope-graphs.html#when-to-use-slope-graphs",
-    "title": "Slope Graphs",
-    "section": "",
-    "text": "Slope graphs are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups."
-  },
-  {
-    "objectID": "chart_slope-graphs.html",
-    "href": "chart_slope-graphs.html",
-    "title": "Slope charts",
-    "section": "",
-    "text": "Slope charts are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups."
-  },
-  {
-    "objectID": "chart_slope-graphs.html#when-to-use-slope-graphs",
-    "href": "chart_slope-graphs.html#when-to-use-slope-graphs",
-    "title": "Slope Graphs",
-    "section": "",
-    "text": "Slope graphs are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups."
-  },
-  {
-    "objectID": "chart_slope-graphs.html#r-code",
-    "href": "chart_slope-graphs.html#r-code",
-    "title": "Slope charts",
-    "section": "R code",
-    "text": "R code\nGet the packages that you need:\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(grid)\nlibrary(gridExtra)\nlibrary(smcepi)\n\nLoad the data. For this example, we’re using a filtered and summarized version of the California Department of Finance’s P-3 file from July, 2023.\n\nyear: this is the year for the population projection\nsex: this is sex and only includes male and female categories\nrace_cat: this is the single race/ethnicity value\npop_race_sex: this is the population of the race and sex group for each year (ex: Female American Indian/Alaskan Natives in 2010)\npop_race: this is the population of the race group for each year (ex: Male + Female American Indian/Alaskan Natives in 2010)\nprop: this is pop_race_sex/pop_race\n\n\ndof &lt;- read.csv(\"data//dof_estimates_sex_race.csv\")\n\nglimpse(dof)\n\nRows: 714\nColumns: 6\n$ year         &lt;int&gt; 2010, 2010, 2010, 2010, 2010, 2010, 2010, 2010, 2010, 201…\n$ sex          &lt;chr&gt; \"Female\", \"Female\", \"Female\", \"Female\", \"Female\", \"Female…\n$ race_cat     &lt;chr&gt; \"American Indian/Alaskan Native\", \"Asian\", \"Black\", \"Lati…\n$ pop_race_sex &lt;int&gt; 611, 94834, 9363, 90331, 11344, 5318, 154812, 565, 83512,…\n$ pop_race     &lt;int&gt; 1176, 178346, 19077, 183140, 22641, 10262, 306712, 1176, …\n$ prop         &lt;dbl&gt; 0.51956, 0.53174, 0.49080, 0.49323, 0.50104, 0.51822, 0.5…\n\n\nLet’s say we want to see the change in population by race/ethnicity in San Mateo County over time. One way to do this is a line chart. This is an effective way of looking at the data. But, if the trends are relatively stable, you might just want to focus on the start and end points.\n\ndof1 &lt;- dof %&gt;%\n  group_by(year, race_cat) %&gt;%\n  summarize(pop_race_cat = sum(pop_race_sex),\n            .groups = \"keep\") %&gt;%\n  ungroup() %&gt;%\n  group_by(year) %&gt;%\n  mutate(year_total = sum(pop_race_cat)) %&gt;%\n  ungroup() %&gt;%\n  mutate(race_prop = pop_race_cat/year_total)\n\nLine chart:\n\nggplot(dof1) + \n  geom_line(aes(x = year, y = race_prop, color = race_cat), linewidth = 1.5) + \n  see::scale_color_okabeito() + \n  theme_gg_smc(legend_loc = \"right\") + \n  labs(title = \"Percentage of population by race/ethnicity\",\n       subtitle = \"2020-2060\",\n       x = \"Year\",\n       y = \"\")\n\n\n\n\n\n\n\n\nIf the goal of the visualization is to look at every year from 2020-2060, then a line graph is the way to go. If instead we really want to see the projected change from 2020 to 2060, we should use a slope chart.\nSlope chart:\n\ndof1 %&gt;%\n  filter(year %in% c(2010, 2060)) %&gt;%\n  ggplot() + \n  geom_line(aes(x = year, y = race_prop, color = race_cat), linewidth = 1.5)  + \n  geom_point(aes(x = year, y = race_prop, color = race_cat), size = 4) + \n  scale_x_continuous(limits = c(2000, 2070),\n                     breaks = c(2010, 2060)) + \n  scale_y_continuous(labels = scales::percent) + \n  see::scale_color_okabeito() + \n  theme_gg_smc(legend_loc = \"right\") + \n  labs(title = \"Percentage of population by race/ethnicity\",\n       subtitle = \"2020 to 2060\",\n       x = \"Year\",\n       y = \"\")"
-  },
-  {
-    "objectID": "chart_slope-graphs.html#when-to-use-slope-charts",
-    "href": "chart_slope-graphs.html#when-to-use-slope-charts",
-    "title": "Slope charts",
-    "section": "",
-    "text": "Slope charts are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups."
   }
 ]
