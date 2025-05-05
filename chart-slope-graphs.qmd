@@ -1,5 +1,8 @@
 ---
 title: "Slope Graphs"
+format: html
+embed-resources: true
+editor: visual
 ---
 
 ## When to use slope graphs
@@ -38,7 +41,9 @@ dof <- read.csv("data//dof_estimates_sex_race.csv")
 
 glimpse(dof)
 ```
-Let's say we want to see the change in population by race/ethnicity over time. One way to do this is a line chart. This is an effective way of looking at the data. But, if the trends are relatively stable, you might just want to focus on the start and end points. 
+
+Let's say we want to see the change in population by race/ethnicity over time. One way to do this is a line chart. This is an effective way of looking at the data. But, if the trends are relatively stable, you might just want to focus on the start and end points.
+
 ```{r}
 dof1 <- dof %>%
   group_by(year, race_cat) %>%
@@ -51,12 +56,11 @@ dof1 <- dof %>%
   mutate(race_prop = pop_race_cat/year_total)
 ```
 
-Line chart: 
-```{r}
-ggplot(dof1) + 
-  geom_line(aes(x = year, y = race_prop, color = race_cat))
+Line chart:
 
-````
+```{r} ggplot(dof1) + geom_line(aes(x = year, y = race_prop, color = race_cat))
+
+```         
 
 
 Slope graph: 
@@ -72,5 +76,4 @@ dof1 %>%
   theme_minimal() + 
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
-
-````
+```
