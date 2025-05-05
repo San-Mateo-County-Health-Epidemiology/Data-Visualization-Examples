@@ -1,30 +1,28 @@
 ---
-title: "Slope Graphs"
+title: "Slope charts"
 format: html
 embed-resources: true
 editor: visual
+execute: 
+  echo: true
+  message: false
+  warning: false
 ---
 
-## When to use slope graphs
+## When to use slope charts
+
+slope charts are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups. 
 
 ## R code
 
 Get the packages that you need:
-
-```{r setup}
-knitr::opts_chunk$set(
-	echo = TRUE,
-	message = FALSE,
-	warning = FALSE,
-	warn.conflicts = FALSE
-)
-```
 
 ```{r}
 library(dplyr)
 library(ggplot2)
 library(grid)
 library(gridExtra)
+library(smcepi)
 ```
 
 Load the data. For this example, we're using a filtered and summarized version of the [California Department of Finance's P-3 file](https://dof.ca.gov/forecasting/demographics/projections/) from July, 2023.
@@ -42,7 +40,7 @@ dof <- read.csv("data//dof_estimates_sex_race.csv")
 glimpse(dof)
 ```
 
-Let's say we want to see the change in population by race/ethnicity over time. One way to do this is a line chart. This is an effective way of looking at the data. But, if the trends are relatively stable, you might just want to focus on the start and end points.
+Let's say we want to see the change in population by race/ethnicity in San Mateo County over time. One way to do this is a line chart. This is an effective way of looking at the data. But, if the trends are relatively stable, you might just want to focus on the start and end points.
 
 ```{r}
 dof1 <- dof %>%
@@ -58,12 +56,20 @@ dof1 <- dof %>%
 
 Line chart:
 
-```{r} ggplot(dof1) + geom_line(aes(x = year, y = race_prop, color = race_cat))
-
+```{r} 
+ggplot(dof1) + 
+  geom_line(aes(x = year, y = race_prop, color = race_cat), linewidth = 1.5) + 
+  see::scale_color_okabeito() + 
+  theme_gg_smc(legend_loc = "right") + 
+  labs(title = "Percentage of population by race/ethnicity",
+       subtitle = "2020-2060",
+       x = "Year",
+       y = "")
 ```         
+If the goal of the visualization is to look at every year from 2020-2060, then a line graph is the way to go. If instead we really want to see the projected change from 2020 to 2060, we should use a slope chart.  
 
+Slope chart: 
 
-Slope graph: 
 ```{r}
 dof1 %>%
   filter(year %in% c(2010, 2060)) %>%
@@ -73,7 +79,10 @@ dof1 %>%
   scale_x_continuous(limits = c(2000, 2070),
                      breaks = c(2010, 2060)) + 
   scale_y_continuous(labels = scales::percent) + 
-  theme_minimal() + 
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank())
+  see::scale_color_okabeito() + 
+  theme_gg_smc(legend_loc = "right") + 
+  labs(title = "Percentage of population by race/ethnicity",
+       subtitle = "2020 to 2060",
+       x = "Year",
+       y = "")
 ```
