@@ -6,7 +6,7 @@ editor: visual
 
 # When to use line charts
 
-Line charts are the best way to visualize continuous data over time or over an ordered numerical value (like age). When using line charts, beware of including too many groups on your chart and turning it into an unreadable "spaghetti" graph. 
+Line charts are the best way to visualize continuous data over time or over an ordered numerical value (like age). When using line charts, beware of including too many groups on your chart and turning it into an unreadable "spaghetti" graph.
 
 # R code
 
@@ -24,7 +24,7 @@ library(smcepi)
 library(lubridate)
 ```
 
-Load the data. For these charts, we'll use the 2020-2023 daily COVID-19 case counts in California. These data are from the [Statewide COVID-19 Cases Deaths Tests dataset](https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv) on the California Open Data Portal. 
+Load the data. For these charts, we'll use the 2020-2023 daily COVID-19 case counts in California. These data are from the [Statewide COVID-19 Cases Deaths Tests dataset](https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv) on the California Open Data Portal.
 
 ```{r}
 data <- readRDS("data/ca-covid.rds")
@@ -33,9 +33,10 @@ flu <- readRDS("data/ca-flu.RDS")
 
 glimpse(data)
 ```
+
 ## Basic line chart
 
-To make a basic line chart, use the `geom_line()` function and pass continuous variables as the `x` and `y` variables. 
+To make a basic line chart, use the `geom_line()` function and pass continuous variables as the `x` and `y` variables.
 
 ```{r}
 title <- gg_color_title("COVID-19 Cases in California", "COVID-19", "#009d4e")
@@ -72,7 +73,41 @@ flu %>%
 
 ## Looking at multiple groups at once
 
-Sometimes, you might be able to get away with a basic line chart, but more often than not, you'll want to look at multiple groups at once. If you're looking at 1-4 groups, it's fine to keep them all on the same chart. But anything past that, and you'll end up with a spaghetti chart: 
+### fine
+
+Sometimes, you might be able to get away with a basic line chart, but more often than not, you'll want to look at multiple groups at once. If you're looking at 1-4 groups, it's fine to keep them all on the same chart. But anything past that, and you'll end up with a spaghetti chart:
+
+```{r}
+title <- "Flu Positives by Season, California"
+
+flu %>%
+  group_by(season, respiratory_virus) %>%
+  arrange(week_end) %>%
+  mutate(week_count = row_number(),
+         epi_week = as.numeric(epi_week)) %>%
+  ungroup() %>%
+  filter(season_end >= 20202 & !epi_week %in% 28:39) %>%
+  group_by(season) %>%
+  arrange(week_end) %>%
+  ggplot() + 
+  geom_line(aes(x = week_end,
+                y = number_positive,
+                group = respiratory_virus,
+                color = respiratory_virus),
+            linewidth = 1.2) + 
+  scale_y_continuous(limits = c(0, 3400),
+                     label = scales::comma) + 
+  #scale_x_discrete(breaks = c(seq(40, 52, by = 4), seq(3, 39, by = 4))) + 
+  labs(title = title,
+       y = "Positives",
+       x = "Epi Week") +
+  theme_gg_smc(legend_loc = "right")
+
+```
+
+### don't do this
+
+Sometimes, you might be able to get away with a basic line chart, but more often than not, you'll want to look at multiple groups at once. If you're looking at 1-4 groups, it's fine to keep them all on the same chart. But anything past that, and you'll end up with a spaghetti chart:
 
 ```{r}
 title <- gg_color_title("COVID-19 Cases in California", "COVID-19", "#009d4e")
@@ -91,6 +126,8 @@ data %>%
        y = "Case Count",
        x = "Date") +
   theme_gg_smc(plot_lines = "horizontal")
+
+title <- "Flu Positives by Season, California"
 
 flu %>%
   group_by(season, respiratory_virus) %>%
@@ -113,9 +150,8 @@ flu %>%
   labs(title = title,
        y = "Positives",
        x = "Epi Week") +
-  theme_gg_smc(legend_loc = "none")
+  theme_gg_smc(legend_loc = "right")
 
 ```
 
 ## Small multiples
-
