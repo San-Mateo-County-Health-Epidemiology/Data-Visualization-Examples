@@ -11,7 +11,7 @@ execute:
 
 ## When to use slope charts
 
-slope charts are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups. 
+Slope charts are like mini line charts and should be used when you want to show the change between two points in time. Like the name implies, you compare the slopes of the lines to see how changes were different or similar across groups. 
 
 ## R code
 
