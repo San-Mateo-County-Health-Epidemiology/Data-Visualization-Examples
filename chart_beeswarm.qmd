@@ -1,16 +1,17 @@
 ---
 title: "Beeswarm charts"
 format: html
+embed-resources: true
 editor: visual
 ---
 
 # When to use beeswarm charts
 
-Beeswarm or jitter charts are excellent for comparing a continuous variable across multiple categories. Beeswarm charts are essentially dot plots where the dots are randomly moved horizontally (in a vertical beeswarm) or vertically (in a horizontal beeswarm) to more effectively show the distribution of points across a continuous variable. 
+Beeswarm or jitter charts are excellent for comparing a continuous variable across multiple categories. Beeswarm charts are essentially dot plots where the dots are randomly moved horizontally (in a vertical beeswarm) or vertically (in a horizontal beeswarm) to more effectively show the distribution of points across a continuous variable.
 
-If you're planning to use a box plot, consider upgrading to a beeswarm or overlaying a beeswarm on a box plot. 
+If you're planning to use a box plot, consider upgrading to a beeswarm or overlaying a beeswarm on a box plot.
 
-This code was adapted from Stephanie Evergreen's Code for Beeswarm Plots. [This article](https://stephanieevergreen.com/ways-to-make-more-inclusive-data-viz/) goes over the motivation for using a beeswarm plot in detail. 
+This code was adapted from Stephanie Evergreen's Code for Beeswarm Plots. [This article](https://stephanieevergreen.com/ways-to-make-more-inclusive-data-viz/) goes over the motivation for using a beeswarm plot in detail.
 
 # R code
 
@@ -38,11 +39,11 @@ This code is quite similar to the code for creating a dot plot. However, when cr
 
 `position_jitter()`: here you can set a maximum random horizontal or vertical movement for a given point. To maintain distinction between categories, the value you put here should be less than 1/2 (a more thorough explanation for that is [here](https://ggplot2.tidyverse.org/reference/position_jitter.html)). For a vertical chart, use horizontal jitter, ex: `w = 1/3` and for a horizontal chart, use vertical jitter, ex: `h = 1/3`.
 
-`alpha`: this controls the transparency of each point. 0 is completely transparent and 1 is completely opaque. You want the alpha value to be somewhere between 0 and 1 so you can see the density of points in the chart. 
+`alpha`: this controls the transparency of each point. 0 is completely transparent and 1 is completely opaque. You want the alpha value to be somewhere between 0 and 1 so you can see the density of points in the chart.
 
 ## Vertical beeswarm chart
 
-In this example, `x` is our categorical variable and `y` is our continuous variable. In `position_jitter()` `w = 1/4` which means the dots will be randomly "jittered" horizontally. Setting `h = 0` just means that all points will be at their assigned `y` value. 
+In this example, `x` is our categorical variable and `y` is our continuous variable. In `position_jitter()` `w = 1/4` which means the dots will be randomly "jittered" horizontally. Setting `h = 0` just means that all points will be at their assigned `y` value.
 
 ```{r}
 # vertical beeswarm ----
@@ -66,13 +67,14 @@ iris %>%
   theme_gg_smc()
 
 ```
+
 ## Horizontal beeswarm chart
 
 You might prefer to have the continuous variable on the x-axis. If so, you can easily change the code above. You just need to:
 
-* swap the `x` and `y` variables in `ggplot()`
-* swap the `h` and `w` arguments in `position_jitter()`
-* use `scale_x_continuous` instead of `scale_y_continuous`
+-   swap the `x` and `y` variables in `ggplot()`
+-   swap the `h` and `w` arguments in `position_jitter()`
+-   use `scale_x_continuous` instead of `scale_y_continuous`
 
 ```{r}
 iris %>% 
@@ -91,5 +93,3 @@ iris %>%
   labs(title = "Sepal Length of Iris Species") +
   theme_gg_smc(plot_lines = "vertical")
 ```
-
-
