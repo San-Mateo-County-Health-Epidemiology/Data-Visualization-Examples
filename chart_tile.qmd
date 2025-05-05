@@ -1,0 +1,114 @@
+---
+title: "Tile charts"
+format: html
+editor: visual
+---
+
+# When to use tile charts
+
+Tile charts are great for ranking things over time or across categories, ex: causes of death by year, causes of morbidity by age group, etc. They're especially handy if you have a third, more broad category that you want to incorporate into your chart as you can use that category to determine color. 
+
+# R code
+
+Get the packages you need:
+
+```{r 	message = FALSE, warning = FALSE, warn.conflicts = FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggtext)
+library(grid)
+library(gridExtra)
+library(extrafont)
+library(smcepi)
+library(lubridate)
+library(zoo)
+```
+
+We're going to use the `mtcars` data from the `datasets` package. (To see all data in the datasets package, run `library(help = "datasets")`.)
+
+```{r}
+data <- AirPassengers 
+
+data1 <- data.frame(trips = as.matrix(data), date=as.Date(as.yearmon(time(data)))) %>%
+  mutate(year = year(date),
+         month = month(date, label = T, abbr = F),
+         season = case_when(month(date) %in% 4:6 ~ "Spring",
+                            month(date) %in% 7:9 ~ "Summer",
+                            month(date) %in% 10:12 ~ "Fall",
+                            TRUE ~ "Winter"))
+```
+
+
+```{r}
+#| fig-height: 8
+#| fig-width: 15
+plot1 <- data1 %>%
+  group_by(year) %>%
+  arrange(desc(trips)) %>%
+  mutate(rank = row_number(),
+         label = paste0(month, "\n", trips)) %>%
+  ungroup() %>%
+  # plot by year and rank
+  ggplot(aes(x = year,
+             y = rank)) +
+  # fill tiles by season variable
+  geom_tile(aes(fill = factor(season),
+                height = 1)) + 
+  # add labels to each tile
+  geom_text(aes(x = year,
+                y = rank,
+                label = label),
+            color = "black",
+            fontface = "bold",
+            hjust = "center") + 
+  # flip chart so lower numbers are higher 
+ # scale_y_reverse(limits = c(12.5,0.5)) +
+  coord_trans(y = "reverse") +
+  # get rid of extra whitespace
+  coord_cartesian(ylim = c(12.5, 1)) +
+  # move x axis label to the top
+  scale_x_continuous(position = "top")
+plot1 
+```
+
+
+Now let's make it look nicer. 
+
+```{r}
+#| fig-height: 8
+#| fig-width: 15
+
+# set up a color palette (this uses values from the Okabe Ito palette: https://siegal.bio.nyu.edu/color-palette/) 
+## note: the left values (spring, summer, fall and winter) are the values from the "season" variable that we used for "geom_tile(aes(fill = factor(season))"
+pal <- c("Spring" = "#009E73", # green 
+         "Summer" = "#F0E442", # yellow
+         "Fall" = "#D55E00", # orange 
+         "Winter" = "#56B4E9") # blue
+
+plot2 <- plot1 +
+  # apply our custom color palette instead of the default
+  scale_fill_manual(values = pal) + 
+  # add a white border around each tile to make some visual space
+  geom_tile(aes(width = 1,
+                height = 1,
+                y = rank), 
+            fill = NA, 
+            color = "white",
+            size = 1.5) + 
+  # remove all plot lines, move legend to the right and adjust text sizes
+  theme_gg_smc(plot_lines = "none",
+               legend_loc = "top",
+               axis_font_size = 12,
+               title_font_size = 24,
+               subtitle_font_size = 20) + 
+  # remove y-axis label ("rank")
+  theme(axis.text.y = element_blank()) +
+  # add labels 
+  labs(title = "Monthly airline passenger numbers",
+       subtitle = "1949-1960",
+       caption = "Source: R datasets package. Box, G. E. P., Jenkins, G. M. and Reinsel, G. C. (1976) Time Series Analysis, Forecasting and Control. Third Edition. Holden-Day. Series G.",
+       x = "",
+       y = "") 
+plot2
+```
