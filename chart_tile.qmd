@@ -3,6 +3,10 @@ title: "Tile charts"
 format: html
 embed-resources: true
 editor: visual
+execute:
+  warning: false
+  error: false
+  
 ---
 
 # When to use tile charts
@@ -108,7 +112,8 @@ plot2 <- plot1 +
                legend_loc = "right",
                axis_font_size = 12,
                title_font_size = 24,
-               subtitle_font_size = 20) + 
+               subtitle_font_size = 20,
+               caption_font_size = 12) + 
   # remove y-axis label ("rank")
   theme(axis.text.y = element_blank()) +
   # add labels 
