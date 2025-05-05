@@ -1,5 +1,8 @@
 ---
 title: "Bar charts"
+format: html
+embed-resources: true
+editor: visual
 ---
 
 # When to use bar charts
@@ -77,9 +80,7 @@ You might be tempted to use a clustered bar chart, but clustered bar charts are 
 Small multiples are a great way to compare the distribution of a categorical variable across the categories of another variable. `facet_wrap()` from the `ggplot2` package makes it really easy to create small multiples.
 
 ```{r}
-title <- gg_color_title("Brown eyes were most common among all hair colors, <br>
-                        except blondes, for whom blue eyes were most common", 
-                        c("most common", "most common"), c("#006cb6", "#006cb6"))
+title <- "Brown eyes were most common among all hair colors, <br> except among blondes, for whom blue eyes were most common"
 
 HairEyeColor %>%
   data.frame() %>%
