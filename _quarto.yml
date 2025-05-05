@@ -18,6 +18,7 @@ website:
         - chart_bar.qmd
         - chart_beeswarm.qmd
         - chart_small-multiples.qmd
+        - chart_tile.qmd
 
 format:
   html:
